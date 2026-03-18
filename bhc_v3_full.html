@@ -1,0 +1,1622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bharat Health Connect – MVT Connect v4.0</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:linear-gradient(135deg,#0A2240 0%,#0E4A7A 40%,#1AAFE0 100%);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:20px 16px 48px;}
+.top-header{text-align:center;margin-bottom:14px;}
+.top-header .eyebrow{color:#1AAFE0;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:5px;}
+.top-header h1{color:#fff;font-size:22px;font-weight:800;font-family:Georgia,serif;}
+.top-header p{color:rgba(255,255,255,0.7);font-size:12px;margin-top:3px;}
+.brand-strip{display:flex;align-items:center;gap:14px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:12px;padding:7px 16px;margin-bottom:13px;}
+.brand-badge{display:flex;align-items:center;gap:6px;padding:3px 11px;border-radius:8px;font-size:11px;font-weight:700;}
+.brand-badge.qci{background:rgba(26,175,224,0.25);color:#7FD8F5;border:1px solid rgba(26,175,224,0.4);}
+.brand-badge.nabh{background:rgba(26,95,160,0.3);color:#93C5FD;border:1px solid rgba(26,95,160,0.45);}
+.brand-badge.mvt{background:rgba(255,107,0,0.2);color:#FDB97D;border:1px solid rgba(255,107,0,0.3);}
+.brand-dot{width:1px;height:22px;background:rgba(255,255,255,0.2);}
+.brand-gov{color:rgba(255,255,255,0.65);font-size:10px;}
+.tabs{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;margin-bottom:16px;max-width:880px;}
+.tab-btn{padding:5px 11px;border-radius:20px;border:none;cursor:pointer;font-size:10px;font-weight:700;transition:all .18s;background:rgba(255,255,255,0.09);color:#8896AD;font-family:inherit;}
+.tab-btn.active{background:#FF6B00;color:#fff;}
+.tab-btn.pt{background:rgba(107,70,193,0.25);color:#C4B5FD;}
+.tab-btn.pt.active{background:#6B46C1;color:#fff;}
+.tab-group-label{color:#8896AD;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;align-self:center;padding:0 4px;}
+
+/* ── PHONE ── */
+.phone{width:375px;height:780px;background:#F7F9FC;border-radius:40px;border:8px solid #0A2240;box-shadow:0 40px 100px rgba(0,0,0,0.6),inset 0 0 0 1px rgba(255,255,255,0.07);overflow:hidden;display:flex;flex-direction:column;position:relative;}
+.status-bar{background:#0A2240;padding:8px 20px 5px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}
+.status-bar span{color:#fff;font-size:11px;font-weight:700;}
+.screen{display:none;flex-direction:column;flex:1;overflow:hidden;}
+.screen.active{display:flex;}
+.scroll-body{flex:1;overflow-y:auto;}
+.scroll-body::-webkit-scrollbar{width:0;}
+
+/* ── NAV ── */
+.nav-header{background:#0A2240;padding:12px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.nav-header.purple{background:linear-gradient(135deg,#3B1F6B,#553D9B);}
+.nav-header .back-btn{background:none;border:none;color:#fff;font-size:20px;cursor:pointer;padding:0;line-height:1;}
+.nav-header h2{color:#fff;font-size:15px;font-weight:700;font-family:Georgia,serif;flex:1;}
+.nav-header .hdr-right{color:#1AAFE0;font-size:11px;font-weight:700;cursor:pointer;background:none;border:none;white-space:nowrap;font-family:inherit;}
+.bottom-nav{background:#fff;border-top:1px solid #EEF1F6;display:flex;padding:6px 0 14px;flex-shrink:0;box-shadow:0 -4px 20px rgba(0,0,0,0.06);}
+.bnav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:4px 0;font-family:inherit;}
+.bnav-icon{font-size:18px;}
+.bnav-label{font-size:9px;font-weight:700;color:#8896AD;}
+.bnav-item.active .bnav-label{color:#FF6B00;}
+.bnav-item.active.pat .bnav-label{color:#6B46C1;}
+.bnav-dot{width:16px;height:3px;background:#FF6B00;border-radius:2px;}
+.bnav-dot.purple{background:#6B46C1;}
+
+/* ── BADGE ── */
+.badge{display:inline-block;font-size:9px;font-weight:700;padding:2px 7px;border-radius:10px;}
+
+/* ── BUTTONS ── */
+.btn-primary{background:linear-gradient(135deg,#0E4A7A,#1AAFE0);color:#fff;border:none;border-radius:12px;padding:13px 20px;font-size:14px;font-weight:700;cursor:pointer;width:100%;box-shadow:0 4px 15px rgba(26,175,224,0.35);font-family:inherit;}
+.btn-primary.purple{background:linear-gradient(135deg,#6B46C1,#805AD5);box-shadow:0 4px 15px rgba(107,70,193,0.3);}
+.btn-primary.qci{background:linear-gradient(135deg,#0A2240,#1AAFE0);box-shadow:0 4px 15px rgba(26,175,224,0.3);}
+.btn-primary.teal{background:linear-gradient(135deg,#00897B,#00BFA5);box-shadow:0 4px 15px rgba(0,137,123,0.3);}
+.btn-outline{background:transparent;color:#1AAFE0;border:2px solid #1AAFE0;border-radius:12px;padding:12px 20px;font-size:14px;font-weight:700;cursor:pointer;width:100%;font-family:inherit;}
+.btn-small{background:linear-gradient(135deg,#0E4A7A,#1AAFE0);color:#fff;border:none;border-radius:8px;padding:6px 13px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;}
+.btn-small.connected{background:#EEF1F6;color:#8896AD;}
+.btn-small.purple{background:linear-gradient(135deg,#6B46C1,#805AD5);}
+
+/* ── INPUTS ── */
+.inp{width:100%;padding:12px 14px;border-radius:12px;border:1.5px solid #D8DEE9;font-size:13px;outline:none;background:#fff;color:#0A1628;font-family:inherit;}
+.inp:focus{border-color:#FF6B00;}
+.inp-wrap{position:relative;}
+.inp-icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:14px;pointer-events:none;}
+.inp-wrap .inp{padding-left:40px;}
+textarea.inp{resize:none;height:90px;padding:12px 14px;}
+select.inp{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238896AD' fill='none' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;}
+.check-row{display:flex;align-items:flex-start;gap:10px;cursor:pointer;}
+.check-row input[type=checkbox]{width:17px;height:17px;margin-top:1px;accent-color:#FF6B00;flex-shrink:0;cursor:pointer;}
+.check-label{color:#4A5568;font-size:12px;line-height:1.5;}
+.check-label a{color:#FF6B00;font-weight:700;}
+.card{background:#fff;border-radius:16px;border:1px solid #EEF1F6;box-shadow:0 2px 10px rgba(0,0,0,0.05);}
+
+/* OTP section */
+.otp-row{display:flex;gap:9px;justify-content:center;margin:6px 0;}
+.otp-box{width:44px;height:50px;border:1.5px solid #D8DEE9;border-radius:10px;text-align:center;font-size:20px;font-weight:700;color:#1A4FA0;background:#fff;outline:none;font-family:inherit;}
+.otp-box.filled{border-color:#FF6B00;background:#FFF5EE;}
+.otp-step{background:#F7F9FC;border-radius:12px;padding:13px;border:1.5px solid #EEF1F6;}
+.otp-step-title{color:#0A1628;font-size:12px;font-weight:800;margin-bottom:8px;display:flex;align-items:center;gap:7px;}
+.otp-step-title .step-num{width:20px;height:20px;border-radius:50%;background:#FF6B00;color:#fff;font-size:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.otp-resend{text-align:center;font-size:11px;color:#8896AD;margin-top:5px;}
+.otp-resend span{color:#FF6B00;font-weight:700;cursor:pointer;}
+
+/* ── ONBOARDING ── */
+.ob-body{flex:1;background:linear-gradient(160deg,#0A2240,#0E4A7A);display:flex;flex-direction:column;}
+.ob-content{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px;text-align:center;}
+.ob-icon{font-size:68px;margin-bottom:22px;}
+.ob-title{color:#FF6B00;font-size:20px;font-weight:800;font-family:Georgia,serif;line-height:1.25;margin-bottom:12px;}
+.ob-desc{color:#D8DEE9;font-size:13px;line-height:1.65;}
+.ob-logo-row{display:flex;gap:10px;justify-content:center;margin-top:18px;}
+.ob-logo-pill{padding:5px 13px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:20px;color:rgba(255,255,255,0.75);font-size:11px;font-weight:700;}
+.ob-footer{padding:0 26px 32px;}
+.ob-dots{display:flex;gap:6px;justify-content:center;margin-bottom:22px;}
+.ob-dot{width:8px;height:8px;border-radius:4px;background:#8896AD;transition:all .3s;}
+.ob-dot.active{width:24px;background:#FF6B00;}
+
+/* ── LOGIN ── */
+.login-hero{background:linear-gradient(160deg,#0A2240,#0E4A7A);padding:28px 24px 22px;text-align:center;flex-shrink:0;}
+.login-logo-row{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:12px;}
+.login-logo-badge{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;background:linear-gradient(135deg,#1A4FA0,#0e9e82);}
+.login-logo-name .ln1{color:#fff;font-size:14px;font-weight:700;text-align:left;}
+.login-logo-name .ln2{color:#8896AD;font-size:10px;text-align:left;}
+.login-hero h2{color:#fff;font-size:18px;font-weight:800;font-family:Georgia,serif;margin-top:6px;}
+.login-hero p{color:#8896AD;font-size:12px;margin-top:3px;}
+.login-body{flex:1;padding:16px;display:flex;flex-direction:column;gap:11px;overflow-y:auto;}
+.divider{display:flex;align-items:center;gap:10px;}
+.divider-line{flex:1;height:1px;background:#D8DEE9;}
+.divider span{color:#8896AD;font-size:11px;}
+.forgot-btn{background:none;border:none;color:#FF6B00;font-size:12px;font-weight:700;cursor:pointer;text-align:right;align-self:flex-end;font-family:inherit;}
+.footer-note{text-align:center;color:#8896AD;font-size:10px;}
+
+/* ── ROLE SELECT ── */
+.role-card{display:flex;align-items:center;gap:12px;padding:12px 14px;background:#fff;border:2px solid #D8DEE9;border-radius:14px;cursor:pointer;text-align:left;width:100%;transition:all .18s;margin-bottom:9px;font-family:inherit;}
+.role-card:hover,.role-card:active{border-color:#FF6B00;background:#FFF0E6;}
+.role-card.pt-card:hover{border-color:#6B46C1;background:#F3F0FF;}
+.role-card.admin-card:hover{border-color:#D4A017;background:#FFFBEB;}
+.role-icon{font-size:26px;}
+.role-label{color:#0A1628;font-size:13px;font-weight:700;}
+.role-desc{color:#8896AD;font-size:11px;margin-top:2px;}
+
+/* ── DASHBOARD ── */
+.dash-hero{background:linear-gradient(135deg,#0A2240,#0E4A7A);padding:13px 16px 20px;flex-shrink:0;}
+.dash-toprow{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:13px;}
+.dash-greeting{color:#8896AD;font-size:11px;}
+.dash-name{color:#fff;font-size:17px;font-weight:800;font-family:Georgia,serif;margin:2px 0 5px;}
+.notif-btn{background:rgba(255,255,255,0.12);border:none;border-radius:12px;width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;position:relative;}
+.notif-dot{position:absolute;top:5px;right:5px;width:8px;height:8px;border-radius:50%;background:#E53E3E;border:2px solid #0A1628;}
+.stats-row{display:flex;gap:7px;}
+.stat-box{flex:1;background:rgba(255,255,255,0.1);border-radius:11px;padding:9px 5px;text-align:center;}
+.stat-icon{font-size:16px;}
+.stat-val{color:#fff;font-size:15px;font-weight:800;font-family:Georgia,serif;}
+.stat-label{color:#8896AD;font-size:9px;}
+.announce-card{background:linear-gradient(135deg,rgba(212,160,23,0.12),#FFF0E6);border:1px solid rgba(212,160,23,0.28);border-radius:13px;padding:12px;margin-bottom:11px;display:flex;gap:11px;}
+.announce-icon{font-size:22px;}
+.announce-title{color:#0A1628;font-size:12px;font-weight:800;}
+.announce-desc{color:#4A5568;font-size:11px;margin-top:2px;line-height:1.45;}
+.announce-link{color:#FF6B00;font-size:11px;font-weight:700;background:none;border:none;cursor:pointer;padding:0;margin-top:4px;display:block;font-family:inherit;}
+.sec-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.sec-title{color:#0A1628;font-size:13px;font-weight:800;font-family:Georgia,serif;}
+.sec-link{color:#FF6B00;font-size:11px;font-weight:700;background:none;border:none;cursor:pointer;font-family:inherit;}
+.sec-link.purple{color:#6B46C1;}
+.hscroll{display:flex;gap:9px;overflow-x:auto;padding-bottom:4px;}
+.hscroll::-webkit-scrollbar{height:0;}
+.mini-card{min-width:118px;background:#fff;border-radius:13px;padding:11px;border:1px solid #EEF1F6;cursor:pointer;flex-shrink:0;}
+.mini-logo{font-size:22px;margin-bottom:5px;}
+.mini-name{color:#0A1628;font-size:11px;font-weight:700;line-height:1.3;}
+.mini-loc{color:#8896AD;font-size:9px;margin-top:2px;}
+.activity-item{background:#fff;border-radius:12px;padding:9px 11px;display:flex;gap:9px;align-items:center;margin-bottom:7px;border:1px solid #EEF1F6;}
+.activity-item.unread{background:#FFF0E6;border-color:rgba(255,107,0,0.28);}
+.activity-icon-wrap{width:32px;height:32px;border-radius:9px;background:#EEF1F6;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+.activity-text{color:#0A1628;font-size:11px;font-weight:600;line-height:1.4;}
+.activity-time{color:#8896AD;font-size:10px;margin-top:2px;}
+
+/* ── FACILITATOR VERIFICATION ── */
+.verif-banner{background:linear-gradient(135deg,rgba(212,160,23,0.12),rgba(255,243,205,0.8));border:1.5px solid rgba(212,160,23,0.4);border-radius:13px;padding:13px;margin-bottom:11px;}
+.verif-banner.verified{background:linear-gradient(135deg,rgba(0,137,123,0.1),rgba(224,245,243,0.9));border-color:rgba(0,137,123,0.35);}
+.verif-title{font-size:12px;font-weight:800;color:#0A1628;margin-bottom:3px;}
+.verif-desc{font-size:11px;color:#4A5568;line-height:1.5;margin-bottom:8px;}
+.verif-doc-list{display:flex;flex-direction:column;gap:5px;margin-bottom:9px;}
+.verif-doc-item{display:flex;align-items:center;gap:8px;padding:7px 10px;background:#fff;border-radius:9px;border:1px solid #EEF1F6;font-size:11px;color:#0A1628;}
+.verif-doc-item .doc-status{margin-left:auto;font-size:10px;font-weight:700;}
+.doc-status.pending{color:#D4A017;}
+.doc-status.uploaded{color:#00897B;}
+.doc-status.missing{color:#E53E3E;}
+
+/* ── DISCOVER ── */
+.discover-hero{background:#0A2240;padding:13px 16px 16px;flex-shrink:0;}
+.discover-title{color:#fff;font-size:18px;font-weight:800;font-family:Georgia,serif;margin-bottom:9px;}
+.search-wrap{position:relative;}
+.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:13px;}
+.search-inp{width:100%;padding:10px 14px 10px 36px;border-radius:12px;border:none;font-size:13px;outline:none;font-family:inherit;}
+.filter-row{display:flex;gap:6px;margin-top:9px;overflow-x:auto;padding-bottom:2px;}
+.filter-row::-webkit-scrollbar{height:0;}
+.filter-btn{padding:5px 11px;border-radius:16px;border:none;cursor:pointer;font-size:11px;font-weight:700;white-space:nowrap;background:rgba(255,255,255,0.14);color:#D8DEE9;font-family:inherit;}
+.filter-btn.active{background:#FF6B00;color:#fff;}
+.provider-item{background:#fff;border-radius:13px;padding:12px;border:1px solid #EEF1F6;display:flex;gap:11px;cursor:pointer;margin-bottom:9px;}
+.prov-logo{font-size:30px;line-height:1;flex-shrink:0;}
+.prov-name{color:#0A1628;font-size:13px;font-weight:800;}
+.prov-loc{color:#8896AD;font-size:11px;margin-top:2px;}
+.prov-rating{color:#D4A017;font-size:11px;font-weight:700;}
+.prov-spec{color:#4A5568;font-size:11px;margin-top:4px;line-height:1.4;}
+.prov-tags{display:flex;gap:5px;margin-top:6px;flex-wrap:wrap;}
+
+/* ── DETAIL ── */
+.detail-hero{background:linear-gradient(135deg,#0A2240,#0E4A7A);padding:13px 16px 20px;flex-shrink:0;}
+.detail-hero.patient{background:linear-gradient(135deg,#3B1F6B,#553D9B);}
+.detail-back{background:none;border:none;color:#fff;font-size:20px;cursor:pointer;margin-bottom:9px;display:block;}
+.detail-row{display:flex;gap:12px;align-items:center;}
+.detail-logo-wrap{width:60px;height:60px;border-radius:16px;background:rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;font-size:30px;flex-shrink:0;}
+.detail-name{color:#fff;font-size:15px;font-weight:800;font-family:Georgia,serif;}
+.detail-loc{color:#8896AD;font-size:11px;margin:3px 0 6px;}
+.detail-actions{display:flex;gap:8px;margin-top:12px;}
+.detail-btn{flex:1;padding:10px;border:none;border-radius:11px;cursor:pointer;font-size:12px;font-weight:700;color:#fff;background:linear-gradient(135deg,#FF6B00,#FF8C3A);font-family:inherit;}
+.detail-btn.secondary{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);}
+.detail-btn.purple{background:linear-gradient(135deg,#6B46C1,#805AD5);}
+.detail-section{padding:13px 15px;border-bottom:1px solid #EEF1F6;}
+.detail-sec-title{color:#0A1628;font-size:12px;font-weight:800;font-family:Georgia,serif;margin-bottom:7px;}
+.detail-about{color:#4A5568;font-size:12px;line-height:1.65;}
+.detail-row-item{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #EEF1F6;}
+.detail-row-label{color:#8896AD;font-size:12px;}
+.detail-row-val{color:#0A1628;font-size:12px;font-weight:700;text-align:right;max-width:58%;}
+.contact-box{background:#E0F5F3;border-radius:12px;padding:12px;margin:12px 14px;}
+.contact-box-title{color:#00897B;font-size:12px;font-weight:700;}
+.contact-box-val{color:#0A1628;font-size:12px;margin-top:4px;}
+
+/* ── HOSPITAL TABS ── */
+.hosp-tab-row{display:flex;border-bottom:1px solid #EEF1F6;background:#fff;flex-shrink:0;}
+.hosp-tab{flex:1;padding:10px 4px;text-align:center;font-size:11px;font-weight:700;color:#8896AD;cursor:pointer;border-bottom:2px solid transparent;}
+.hosp-tab.active{color:#FF6B00;border-bottom-color:#FF6B00;}
+.hosp-tab-content{display:none;padding:13px 15px;}
+.hosp-tab-content.active{display:block;}
+.infra-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:11px;}
+.infra-card{background:#F7F9FC;border-radius:10px;padding:10px;text-align:center;}
+.infra-val{color:#0A1628;font-size:17px;font-weight:800;font-family:Georgia,serif;}
+.infra-label{color:#8896AD;font-size:9px;margin-top:2px;}
+.dept-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #EEF1F6;}
+.dept-icon{font-size:20px;flex-shrink:0;}
+.dept-name{color:#0A1628;font-size:12px;font-weight:700;}
+.dept-meta{color:#8896AD;font-size:10px;margin-top:1px;}
+.accr-chip{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:10px;font-size:11px;font-weight:700;margin:4px;}
+.accr-chip.gold{background:#FEF3C7;color:#92400E;border:1px solid #FDE68A;}
+.accr-chip.teal{background:#D1FAE5;color:#064E3B;border:1px solid #A7F3D0;}
+.accr-chip.blue{background:#DBEAFE;color:#1E3A5F;border:1px solid #BFDBFE;}
+.doctor-card{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid #EEF1F6;}
+.doctor-av{width:40px;height:40px;border-radius:12px;background:#EEF1F6;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.doctor-name{color:#0A1628;font-size:12px;font-weight:700;}
+.doctor-spec{color:#8896AD;font-size:10px;margin-top:2px;}
+.doctor-exp{color:#FF6B00;font-size:10px;font-weight:700;margin-top:2px;}
+.review-card{background:#F7F9FC;border-radius:11px;padding:11px;margin-bottom:8px;}
+
+/* ── MESSAGES ── */
+.msg-item{display:flex;gap:11px;padding:12px 16px;cursor:pointer;border-bottom:1px solid #EEF1F6;background:#fff;}
+.msg-item.unread{background:#FFF0E6;}
+.msg-avatar{width:42px;height:42px;border-radius:12px;background:#EEF1F6;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.msg-from{color:#0A1628;font-size:13px;font-weight:700;}
+.msg-preview{color:#8896AD;font-size:11px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:185px;}
+.msg-time{color:#8896AD;font-size:10px;}
+.msg-badge{width:18px;height:18px;border-radius:50%;background:#FF6B00;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:800;flex-shrink:0;}
+
+/* ── CHAT ── */
+.chat-header{background:#0A1628;padding:11px 16px;display:flex;align-items:center;gap:9px;flex-shrink:0;}
+.chat-back{background:none;border:none;color:#fff;font-size:20px;cursor:pointer;}
+.chat-avatar{width:32px;height:32px;border-radius:9px;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:16px;}
+.chat-name{color:#fff;font-size:13px;font-weight:700;}
+.chat-online{color:#00BFA5;font-size:10px;}
+.chat-body{flex:1;overflow-y:auto;padding:12px;background:#F7F9FC;display:flex;flex-direction:column;gap:8px;}
+.chat-body::-webkit-scrollbar{width:0;}
+.bubble-wrap{display:flex;}
+.bubble-wrap.me{justify-content:flex-end;}
+.bubble{max-width:76%;padding:9px 12px;font-size:12px;line-height:1.5;box-shadow:0 2px 8px rgba(0,0,0,0.07);}
+.bubble.them{background:#fff;color:#0A1628;border-radius:14px 14px 14px 3px;}
+.bubble.me{background:linear-gradient(135deg,#FF6B00,#FF8C3A);color:#fff;border-radius:14px 14px 3px 14px;}
+.bubble-time{font-size:9px;margin-top:3px;text-align:right;}
+.bubble.them .bubble-time{color:#8896AD;}
+.bubble.me .bubble-time{color:rgba(255,255,255,0.65);}
+.chat-input-row{padding:9px 12px 16px;background:#fff;display:flex;gap:8px;border-top:1px solid #EEF1F6;align-items:center;flex-shrink:0;}
+.chat-inp{flex:1;padding:9px 13px;border-radius:20px;border:1.5px solid #D8DEE9;font-size:13px;outline:none;font-family:inherit;}
+.chat-send{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#FF6B00,#FF8C3A);border:none;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+
+/* ── NOTIFICATIONS ── */
+.notif-item{display:flex;gap:11px;padding:11px 16px;cursor:pointer;border-bottom:1px solid #EEF1F6;background:#fff;border-left:4px solid transparent;}
+.notif-item.unread{background:#FFF0E6;border-left-color:#FF6B00;}
+.notif-avatar{width:38px;height:38px;border-radius:11px;background:#EEF1F6;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.notif-text{color:#0A1628;font-size:12px;line-height:1.4;}
+.notif-item.unread .notif-text{font-weight:700;}
+.notif-time{color:#8896AD;font-size:10px;margin-top:2px;}
+.unread-dot{width:8px;height:8px;border-radius:50%;background:#FF6B00;margin-top:4px;flex-shrink:0;}
+
+/* ── DIRECTORY ── */
+.dir-type-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.dir-type-title{color:#0A1628;font-size:13px;font-weight:800;font-family:Georgia,serif;}
+.dir-item{display:flex;gap:10px;align-items:center;padding:10px 12px;background:#fff;border-radius:11px;border:1px solid #EEF1F6;cursor:pointer;margin-bottom:6px;}
+.dir-logo{font-size:22px;flex-shrink:0;}
+.dir-name{color:#0A1628;font-size:12px;font-weight:700;}
+.dir-meta{color:#8896AD;font-size:10px;margin-top:1px;}
+
+/* ── PROFILE ── */
+.profile-hero{background:linear-gradient(135deg,#0A2240,#0E4A7A);padding:16px 16px 22px;text-align:center;flex-shrink:0;}
+.profile-hero.patient{background:linear-gradient(135deg,#3B1F6B,#553D9B);}
+.profile-hero.facilitator{background:linear-gradient(135deg,#065A48,#0D7A62);}
+.profile-hero.hospital{background:linear-gradient(135deg,#1A4FA0,#2563B0);}
+.profile-hero.allied{background:linear-gradient(135deg,#744210,#975A16);}
+.profile-avatar{width:64px;height:64px;border-radius:18px;background:rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;font-size:30px;margin:0 auto 9px;}
+.profile-name{color:#fff;font-size:17px;font-weight:800;font-family:Georgia,serif;}
+.profile-loc{color:#8896AD;font-size:12px;margin:2px 0 7px;}
+.profile-stats{display:flex;justify-content:center;gap:24px;margin-top:12px;}
+.pstat-val{color:#fff;font-size:16px;font-weight:800;font-family:Georgia,serif;}
+.pstat-label{color:#8896AD;font-size:9px;}
+.prog-wrap{margin:10px 0 4px;}
+.prog-label{display:flex;justify-content:space-between;font-size:11px;color:#8896AD;margin-bottom:4px;}
+.prog-bar{height:6px;background:rgba(255,255,255,0.15);border-radius:3px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,#FF6B00,#FFD700);border-radius:3px;}
+.prog-tip{color:rgba(255,220,100,0.9);font-size:11px;margin-top:4px;}
+.menu-item{display:flex;align-items:center;gap:11px;padding:12px 14px;background:#fff;border-radius:12px;border:1px solid #EEF1F6;cursor:pointer;width:100%;text-align:left;margin-bottom:7px;font-family:inherit;}
+.menu-icon{font-size:17px;}
+.menu-label{flex:1;color:#0A1628;font-size:13px;font-weight:600;}
+.menu-label.red{color:#E53E3E;}
+.menu-arrow{color:#D8DEE9;font-size:14px;}
+
+/* ── GRIEVANCE ── */
+.grievance-card{background:#fff;border-radius:12px;padding:11px;border:1px solid #EEF1F6;margin-bottom:8px;}
+.grievance-subj{color:#0A1628;font-size:12px;font-weight:700;}
+.grievance-meta{color:#8896AD;font-size:10px;margin-top:2px;}
+.grievance-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #EEF1F6;}
+.grievance-id{color:#0A1628;font-size:12px;font-weight:700;}
+.grievance-user{color:#8896AD;font-size:10px;margin-top:1px;}
+
+/* ── ADMIN ── */
+.admin-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+.admin-stat{background:#fff;border-radius:13px;padding:12px;border:1px solid #EEF1F6;}
+.admin-stat-icon{font-size:22px;}
+.admin-stat-val{font-size:20px;font-weight:800;font-family:Georgia,serif;margin:5px 0 2px;}
+.admin-stat-label{color:#8896AD;font-size:11px;}
+.admin-action-btn{width:100%;padding:10px 12px;background:#F7F9FC;border:1px solid #EEF1F6;border-radius:10px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;color:#0A1628;font-size:12px;font-weight:600;margin-bottom:6px;font-family:inherit;}
+.admin-action-btn .arrow{color:#FF6B00;}
+
+/* ── CONNECTIONS ── */
+.conn-item{background:#fff;border-radius:13px;padding:11px;border:1px solid #EEF1F6;display:flex;gap:10px;align-items:center;margin-bottom:8px;}
+.conn-logo{width:42px;height:42px;border-radius:11px;background:#EEF1F6;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.conn-name{color:#0A1628;font-size:13px;font-weight:700;}
+.conn-loc{color:#8896AD;font-size:11px;margin-top:2px;}
+
+/* ── PATIENT SEARCH ── */
+.patient-dash-hero{background:linear-gradient(135deg,#3B1F6B,#553D9B);padding:13px 16px 20px;flex-shrink:0;}
+.patient-search-box{background:rgba(255,255,255,0.11);border-radius:13px;padding:12px;margin-top:11px;}
+.patient-search-label{color:rgba(255,255,255,0.65);font-size:11px;font-weight:600;margin-bottom:6px;}
+.patient-search-inp{width:100%;padding:10px 14px 10px 36px;border-radius:10px;border:none;font-size:13px;outline:none;font-family:inherit;}
+.patient-filter-hero{background:linear-gradient(135deg,#3B1F6B,#553D9B);padding:13px 16px 16px;flex-shrink:0;}
+.patient-filter-title{color:#fff;font-size:17px;font-weight:800;font-family:Georgia,serif;margin-bottom:9px;}
+.filter-panel{background:#fff;border-radius:15px;margin:11px 11px 4px;padding:13px;border:1px solid #EEF1F6;}
+.filter-panel-title{color:#0A1628;font-size:12px;font-weight:800;margin-bottom:9px;display:flex;align-items:center;gap:6px;}
+.filter-group{margin-bottom:11px;}
+.filter-group-label{color:#8896AD;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;}
+.filter-chips{display:flex;gap:5px;flex-wrap:wrap;}
+.chip{padding:5px 10px;border-radius:15px;border:1.5px solid #D8DEE9;background:#fff;color:#4A5568;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s;}
+.chip.active{border-color:#6B46C1;background:#F3F0FF;color:#6B46C1;}
+.range-row{display:flex;align-items:center;gap:9px;}
+.range-row input[type=range]{flex:1;accent-color:#6B46C1;}
+.range-val{color:#6B46C1;font-size:12px;font-weight:700;min-width:26px;}
+.hosp-card{background:#fff;border-radius:15px;padding:13px;border:1px solid #EEF1F6;margin-bottom:9px;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,0.04);}
+.hosp-card-top{display:flex;gap:11px;align-items:flex-start;}
+.hosp-logo{font-size:32px;line-height:1;flex-shrink:0;}
+.hosp-name{color:#0A1628;font-size:13px;font-weight:800;}
+.hosp-loc{color:#8896AD;font-size:11px;margin-top:2px;}
+.hosp-rating-row{display:flex;align-items:center;gap:3px;margin-top:3px;}
+.stars{color:#D4A017;font-size:11px;}
+.rating-val{color:#D4A017;font-size:11px;font-weight:700;}
+.hosp-spec-row{display:flex;gap:5px;margin-top:7px;flex-wrap:wrap;}
+.spec-tag{background:#F3F0FF;color:#6B46C1;border:1px solid #DDD6FE;font-size:10px;font-weight:700;padding:3px 8px;border-radius:10px;}
+.hosp-highlights{background:#F7F9FC;border-radius:10px;padding:9px;margin-top:9px;display:flex;}
+.hosp-hl{flex:1;text-align:center;}
+.hosp-hl-val{color:#0A1628;font-size:13px;font-weight:800;}
+.hosp-hl-label{color:#8896AD;font-size:9px;margin-top:2px;}
+.hosp-actions{display:flex;gap:7px;margin-top:10px;}
+.hosp-view-btn{flex:1;padding:9px;background:linear-gradient(135deg,#6B46C1,#805AD5);border:none;border-radius:10px;color:#fff;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;}
+.hosp-conn-btn{flex:1;padding:9px;background:#F7F9FC;border:1.5px solid #D8DEE9;border-radius:10px;color:#4A5568;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;}
+.hosp-conn-btn.saved{background:#E0F5F3;border-color:#00897B;color:#00897B;}
+.saved-hosp-card{background:#fff;border-radius:13px;padding:12px;border:1px solid #EEF1F6;display:flex;gap:11px;align-items:center;margin-bottom:8px;}
+.saved-logo{width:42px;height:42px;border-radius:11px;background:#F3F0FF;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.spec-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;}
+.spec-tile{background:#fff;border-radius:13px;padding:11px 8px;text-align:center;cursor:pointer;border:1.5px solid #EEF1F6;}
+.spec-tile-icon{font-size:24px;}
+.spec-tile-name{font-size:10px;font-weight:700;margin-top:5px;}
+
+/* ── TOAST ── */
+.toast{display:none;position:absolute;bottom:88px;left:13px;right:13px;border-radius:12px;padding:11px 15px;font-size:12px;font-weight:700;text-align:center;z-index:10;}
+
+/* ── EMPTY ── */
+.empty-state{text-align:center;padding:36px 18px;}
+.empty-icon{font-size:40px;margin-bottom:11px;}
+.empty-title{color:#0A1628;font-size:13px;font-weight:700;margin-bottom:4px;}
+.empty-desc{color:#8896AD;font-size:11px;}
+
+/* ── FEATURE STRIP ── */
+.feature-strip{display:flex;gap:16px;margin-top:20px;flex-wrap:wrap;justify-content:center;}
+.feat{text-align:center;}
+.feat-val{color:#FF6B00;font-size:16px;font-weight:800;}
+.feat-label{color:#8896AD;font-size:10px;margin-top:2px;}
+</style>
+</head>
+<body>
+
+<div class="top-header">
+  <div class="eyebrow">Interactive Prototype · v4.0 · QCI Governed</div>
+  <!-- Logos row -->
+  <div style="display:flex;align-items:center;justify-content:center;gap:40px;margin-bottom:12px;flex-wrap:wrap;background:rgba(255,255,255,0.08);border-radius:14px;padding:14px 28px;border:1px solid rgba(255,255,255,0.15);">
+
+    <!-- QCI Logo: accurate recreation -->
+    <svg width="90" height="108" viewBox="0 0 90 108" xmlns="http://www.w3.org/2000/svg">
+      <!-- Teal ring: outer circle minus inner circle -->
+      <circle cx="45" cy="38" r="37" fill="#3AAFE0"/>
+      <circle cx="45" cy="38" r="21" fill="white"/>
+      <!-- Black triangle — base wider, extends below ring -->
+      <polygon points="45,16 76,74 14,74" fill="#1D1D1B"/>
+      <!-- QCI lettering: rounded font approximated -->
+      <!-- Q -->
+      <text x="45" y="100" font-family="'Segoe UI',Arial,sans-serif" font-size="26" font-weight="400" fill="#1D1D1B" text-anchor="middle" letter-spacing="4">QCI</text>
+    </svg>
+
+    <!-- NABH Logo: accurate recreation -->
+    <svg width="210" height="90" viewBox="0 0 210 90" xmlns="http://www.w3.org/2000/svg">
+      <!-- Outer teal ring -->
+      <circle cx="44" cy="40" r="38" fill="#3AAFE0"/>
+      <circle cx="44" cy="40" r="22" fill="white"/>
+      <!-- Hospital H symbol (dark blue) inside white circle -->
+      <rect x="33" y="24" width="5" height="22" fill="#1A3A7A"/>
+      <rect x="50" y="24" width="5" height="22" fill="#1A3A7A"/>
+      <rect x="33" y="33" width="22" height="5" fill="#1A3A7A"/>
+      <!-- Caduceus staff -->
+      <line x1="44" y1="18" x2="44" y2="28" stroke="#1A3A7A" stroke-width="1.5"/>
+      <!-- Red triangle overlapping bottom of ring -->
+      <polygon points="44,44 72,82 16,82" fill="#CC2222"/>
+      <!-- NABH text below -->
+      <text x="44" y="96" font-family="'Segoe UI',Arial,sans-serif" font-size="11" font-weight="900" fill="#3AAFE0" text-anchor="middle" letter-spacing="3">NABH</text>
+      <!-- Right side: full name -->
+      <text x="94" y="22" font-family="'Segoe UI',Arial,sans-serif" font-size="10" font-weight="700" fill="#1D1D1B">National Accreditation</text>
+      <text x="94" y="38" font-family="'Segoe UI',Arial,sans-serif" font-size="10" font-weight="700" fill="#1D1D1B">Board For Hospitals</text>
+      <text x="94" y="54" font-family="'Segoe UI',Arial,sans-serif" font-size="10" font-weight="700" fill="#1D1D1B">and Healthcare</text>
+      <text x="94" y="70" font-family="'Segoe UI',Arial,sans-serif" font-size="10" font-weight="700" fill="#1D1D1B">Providers</text>
+    </svg>
+
+  </div>
+  <h1>Bharat Health Connect</h1>
+  <p>India's Medical Value Tourism Digital Platform</p>
+</div>
+
+<div class="brand-strip">
+  <div class="brand-badge qci" style="display:flex;align-items:center;gap:7px;">
+    <!-- Mini QCI logo -->
+    <svg width="20" height="24" viewBox="0 0 90 108" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="45" cy="38" r="37" fill="#3AAFE0"/>
+      <circle cx="45" cy="38" r="21" fill="white"/>
+      <polygon points="45,16 76,74 14,74" fill="#1D1D1B"/>
+      <text x="45" y="100" font-family="'Segoe UI',Arial,sans-serif" font-size="26" font-weight="400" fill="#1D1D1B" text-anchor="middle" letter-spacing="4">QCI</text>
+    </svg>
+    QCI
+  </div>
+  <div class="brand-dot"></div>
+  <div class="brand-badge nabh" style="display:flex;align-items:center;gap:7px;">
+    <!-- Mini NABH logo -->
+    <svg width="20" height="20" viewBox="0 0 88 90" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="44" cy="36" r="34" fill="#3AAFE0"/>
+      <circle cx="44" cy="36" r="20" fill="white"/>
+      <rect x="34" y="22" width="4" height="18" fill="#1A3A7A"/>
+      <rect x="50" y="22" width="4" height="18" fill="#1A3A7A"/>
+      <rect x="34" y="29" width="20" height="4" fill="#1A3A7A"/>
+      <polygon points="44,38 68,74 20,74" fill="#CC2222"/>
+    </svg>
+    NABH
+  </div>
+  <div class="brand-dot"></div>
+  <div class="brand-badge mvt">🌏 MVT Connect</div>
+  <div class="brand-dot"></div>
+  <span class="brand-gov">Quality Council of India</span>
+</div>
+
+<div class="tabs" id="tabs">
+  <span class="tab-group-label">B2B</span>
+  <button class="tab-btn active" onclick="go('onboarding',this)">Onboarding</button>
+  <button class="tab-btn" onclick="go('login',this)">Login</button>
+  <button class="tab-btn" onclick="go('register',this)">Register</button>
+  <button class="tab-btn" onclick="go('otp',this)">OTP Verify</button>
+  <button class="tab-btn" onclick="go('role',this)">Role Select</button>
+  <button class="tab-btn" onclick="go('dashboard',this)">B2B Dashboard</button>
+  <button class="tab-btn" onclick="go('dashboard-hospital',this)">Hospital Dashboard</button>
+  <button class="tab-btn" onclick="go('dashboard-facilitator',this)">Facilitator Dashboard</button>
+  <button class="tab-btn" onclick="go('dashboard-overseas',this)">Overseas Dashboard</button>
+  <button class="tab-btn" onclick="go('dashboard-allied',this)">Allied Dashboard</button>
+  <button class="tab-btn" onclick="go('discover',this)">Discover</button>
+  <button class="tab-btn" onclick="go('detail',this)">Provider Detail</button>
+  <button class="tab-btn" onclick="go('hospital-detail',this)">Hospital Detail</button>
+  <button class="tab-btn" onclick="go('facilitator-verify',this)">Facilitator Verify</button>
+  <button class="tab-btn" onclick="go('messages',this)">Messages</button>
+  <button class="tab-btn" onclick="go('chat',this)">Chat</button>
+  <button class="tab-btn" onclick="go('notifications',this)">Notifications</button>
+  <button class="tab-btn" onclick="go('directory',this)">Directory</button>
+  <button class="tab-btn" onclick="go('profile',this)">Profile</button>
+  <button class="tab-btn" onclick="go('connections',this)">Connections</button>
+  <button class="tab-btn" onclick="go('grievance',this)">Grievance</button>
+  <button class="tab-btn" onclick="go('admin',this)">Admin Panel</button>
+  <span class="tab-group-label" style="margin-left:8px;">Patient</span>
+  <button class="tab-btn pt" onclick="go('patient-dashboard',this)">🩺 Dashboard</button>
+  <button class="tab-btn pt" onclick="go('patient-search',this)">🔍 Search</button>
+  <button class="tab-btn pt" onclick="go('patient-detail',this)">🏥 Hospital Detail</button>
+  <button class="tab-btn pt" onclick="go('patient-saved',this)">💾 Saved</button>
+  <button class="tab-btn pt" onclick="go('patient-profile',this)">👤 Patient Profile</button>
+</div>
+
+<div class="phone">
+  <div class="status-bar"><span>9:41</span><span>●●● WiFi 🔋</span></div>
+
+  <!-- ── ONBOARDING ── -->
+  <div class="screen active" id="screen-onboarding">
+    <div class="ob-body">
+      <div class="ob-content">
+        <div class="ob-icon" id="ob-icon">🌏</div>
+        <div class="ob-title" id="ob-title">India's Medical Tourism Network</div>
+        <div class="ob-desc" id="ob-desc">Connect with 500+ verified hospitals, facilitators, and overseas partners across the MVT ecosystem.</div>
+        <div class="ob-logo-row">
+          <div class="ob-logo-pill" style="display:flex;align-items:center;gap:6px;">
+            <svg width="18" height="22" viewBox="0 0 90 108"><circle cx="45" cy="38" r="37" fill="#3AAFE0"/><circle cx="45" cy="38" r="21" fill="white"/><polygon points="45,16 76,74 14,74" fill="#1D1D1B"/><text x="45" y="100" font-family="'Segoe UI',Arial,sans-serif" font-size="26" font-weight="400" fill="#1D1D1B" text-anchor="middle" letter-spacing="4">QCI</text></svg>
+            QCI
+          </div>
+          <div class="ob-logo-pill" style="display:flex;align-items:center;gap:6px;">
+            <svg width="18" height="20" viewBox="0 0 88 90"><circle cx="44" cy="36" r="34" fill="#3AAFE0"/><circle cx="44" cy="36" r="20" fill="white"/><rect x="34" y="22" width="4" height="18" fill="#1A3A7A"/><rect x="50" y="22" width="4" height="18" fill="#1A3A7A"/><rect x="34" y="29" width="20" height="4" fill="#1A3A7A"/><polygon points="44,38 68,74 20,74" fill="#CC2222"/></svg>
+            NABH
+          </div>
+          <div class="ob-logo-pill">🌏 MVT</div>
+        </div>
+      </div>
+      <div class="ob-footer">
+        <div class="ob-dots"><div class="ob-dot active" id="dot0"></div><div class="ob-dot" id="dot1"></div><div class="ob-dot" id="dot2"></div></div>
+        <button class="btn-primary" id="ob-btn" onclick="obNext()">Next</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── LOGIN ── -->
+  <div class="screen" id="screen-login">
+    <div class="login-hero">
+      <div class="login-logo-row">
+        <!-- Accurate QCI logo in login -->
+        <svg width="48" height="58" viewBox="0 0 90 108" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="45" cy="38" r="37" fill="#3AAFE0"/>
+          <circle cx="45" cy="38" r="21" fill="white"/>
+          <polygon points="45,16 76,74 14,74" fill="#1D1D1B"/>
+          <text x="45" y="100" font-family="'Segoe UI',Arial,sans-serif" font-size="26" font-weight="400" fill="#1D1D1B" text-anchor="middle" letter-spacing="4">QCI</text>
+        </svg>
+        <div class="login-logo-name"><div class="ln1">Bharat Health Connect</div><div class="ln2">MVT Connect · Quality Council of India</div></div>
+      </div>
+      <h2>Welcome Back</h2>
+      <p>Sign in to the MVT ecosystem</p>
+    </div>
+    <div class="login-body scroll-body">
+      <div class="inp-wrap"><span class="inp-icon">📱</span><input class="inp" placeholder="Mobile Number or Email"></div>
+      <div class="inp-wrap"><span class="inp-icon">🔒</span><input class="inp" type="password" placeholder="Password"></div>
+      <button class="forgot-btn">Forgot Password?</button>
+      <button class="btn-primary" onclick="go('dashboard')">Sign In</button>
+      <div class="divider"><div class="divider-line"></div><span>OR</span><div class="divider-line"></div></div>
+      <button class="btn-outline" onclick="go('register')">Create New Account</button>
+      <div class="footer-note">Governed by Quality Council of India (QCI) · NABH Aligned</div>
+    </div>
+  </div>
+
+  <!-- ── REGISTER ── -->
+  <div class="screen" id="screen-register">
+    <div class="nav-header"><button class="back-btn" onclick="go('login')">←</button><h2>Create Account</h2></div>
+    <div class="scroll-body" style="padding:15px;display:flex;flex-direction:column;gap:11px;">
+      <div class="inp-wrap"><span class="inp-icon">🏢</span><input class="inp" placeholder="Full Name / Organisation Name"></div>
+      <div class="inp-wrap"><span class="inp-icon">📱</span><input class="inp" placeholder="Mobile Number (India +91)"></div>
+      <div class="inp-wrap"><span class="inp-icon">✉️</span><input class="inp" placeholder="Email Address"></div>
+      <div class="inp-wrap"><span class="inp-icon">🔒</span><input class="inp" type="password" placeholder="Password"></div>
+      <div class="inp-wrap"><span class="inp-icon">🔒</span><input class="inp" type="password" placeholder="Confirm Password"></div>
+      <div style="background:#F7F9FC;border-radius:12px;padding:12px;border:1.5px solid #EEF1F6;display:flex;flex-direction:column;gap:9px;">
+        <label class="check-row"><input type="checkbox" id="chk-tc"><span class="check-label">I have read and agree to the <a href="#">Terms &amp; Conditions</a> and <a href="#">Privacy Policy</a>.</span></label>
+        <label class="check-row"><input type="checkbox" id="chk-data"><span class="check-label">I consent to collection and use of my data for platform operations.</span></label>
+        <label class="check-row"><input type="checkbox" id="chk-comm"><span class="check-label">I agree to receive platform notifications and updates (opt out anytime).</span></label>
+      </div>
+      <button class="btn-primary" onclick="registerSubmit()">Continue to OTP Verification</button>
+      <div style="text-align:center;color:#8896AD;font-size:10px;">Mobile OTP + Email OTP verification required. QCI regulated platform.</div>
+    </div>
+  </div>
+
+  <!-- ── OTP VERIFY ── -->
+  <div class="screen" id="screen-otp">
+    <div class="nav-header"><button class="back-btn" onclick="go('register')">←</button><h2>Verify Identity</h2></div>
+    <div class="scroll-body" style="padding:16px;display:flex;flex-direction:column;gap:14px;">
+      <div style="background:#E8F0FB;border-radius:11px;padding:11px;font-size:11px;color:#1A4FA0;line-height:1.6;border:1px solid rgba(26,79,160,0.2);">
+        📋 Both mobile and email verification are required to activate your account on the QCI MVT platform.
+      </div>
+
+      <!-- Step 1: Mobile OTP -->
+      <div class="otp-step">
+        <div class="otp-step-title"><div class="step-num">1</div>Mobile OTP Verification</div>
+        <div style="font-size:11px;color:#8896AD;margin-bottom:9px;">OTP sent to <strong style="color:#0A1628;">+91 98765 XXXXX</strong></div>
+        <div class="otp-row">
+          <input class="otp-box filled" value="4" maxlength="1">
+          <input class="otp-box filled" value="8" maxlength="1">
+          <input class="otp-box filled" value="3" maxlength="1">
+          <input class="otp-box filled" value="2" maxlength="1">
+          <input class="otp-box" placeholder="–" maxlength="1">
+          <input class="otp-box" placeholder="–" maxlength="1">
+        </div>
+        <div class="otp-resend">Resend OTP in <span>00:42</span></div>
+        <div style="display:flex;align-items:center;gap:6px;margin-top:9px;background:#E8F5E9;border-radius:8px;padding:7px 10px;">
+          <span style="font-size:13px;">✅</span><span style="font-size:11px;color:#2E7D32;font-weight:600;">Mobile verified successfully</span>
+        </div>
+      </div>
+
+      <!-- Step 2: Email OTP -->
+      <div class="otp-step">
+        <div class="otp-step-title"><div class="step-num" style="background:#8896AD;">2</div>Email OTP Verification</div>
+        <div style="font-size:11px;color:#8896AD;margin-bottom:9px;">OTP sent to <strong style="color:#0A1628;">user@organisation.com</strong></div>
+        <div class="otp-row">
+          <input class="otp-box" placeholder="–" maxlength="1">
+          <input class="otp-box" placeholder="–" maxlength="1">
+          <input class="otp-box" placeholder="–" maxlength="1">
+          <input class="otp-box" placeholder="–" maxlength="1">
+          <input class="otp-box" placeholder="–" maxlength="1">
+          <input class="otp-box" placeholder="–" maxlength="1">
+        </div>
+        <div class="otp-resend">Resend OTP in <span>01:00</span></div>
+      </div>
+
+      <button class="btn-primary" onclick="go('role')" style="margin-top:4px;">Verify &amp; Proceed to Role Selection</button>
+      <div style="text-align:center;color:#8896AD;font-size:10px;">Both verifications must be completed to activate your account.</div>
+    </div>
+  </div>
+
+  <!-- ── ROLE SELECT ── -->
+  <div class="screen" id="screen-role">
+    <div class="nav-header"><h2>Select Your Role</h2></div>
+    <div class="scroll-body" style="padding:14px;">
+      <p style="color:#4A5568;font-size:12px;margin-bottom:14px;line-height:1.5;">Choose the role that best describes you in the medical tourism ecosystem. Your dashboard and features will be customised accordingly.</p>
+      <button class="role-card" onclick="go('dashboard-overseas')"><span class="role-icon">🌍</span><div><div class="role-label">Overseas Partner</div><div class="role-desc">International medical tourism organisations</div></div></button>
+      <button class="role-card" onclick="go('dashboard-facilitator')"><span class="role-icon">🤝</span><div><div class="role-label">Indian Facilitator</div><div class="role-desc">Coordinate patient treatment journeys</div></div></button>
+      <button class="role-card" onclick="go('dashboard-hospital')"><span class="role-icon">🏥</span><div><div class="role-label">Hospital</div><div class="role-desc">NABH accredited healthcare institutions</div></div></button>
+      <button class="role-card" onclick="go('dashboard-allied')"><span class="role-icon">⚕️</span><div><div class="role-label">Allied Provider</div><div class="role-desc">Forex, travel, insurance, wellness</div></div></button>
+      <button class="role-card pt-card" onclick="go('patient-dashboard')" style="border-color:#DDD6FE;background:#FDFBFF;">
+        <span class="role-icon">🩺</span>
+        <div><div class="role-label" style="color:#6B46C1;">Patient</div><div class="role-desc">Search hospitals &amp; specialities for treatment</div></div>
+      </button>
+      <button class="role-card admin-card" onclick="go('admin')"><span class="role-icon">🛡️</span><div><div class="role-label">Administrator</div><div class="role-desc">Platform governance &amp; management</div></div></button>
+    </div>
+  </div>
+
+  <!-- ── OVERSEAS PARTNER DASHBOARD ── -->
+  <div class="screen" id="screen-dashboard-overseas">
+    <div class="dash-hero">
+      <div class="dash-toprow">
+        <div>
+          <div class="dash-greeting">Good morning 👋</div>
+          <div class="dash-name">HealthBridge UAE</div>
+          <span class="badge" style="background:rgba(0,137,123,0.2);color:#00BFA5;border:1px solid rgba(0,191,165,0.28);">🌍 Overseas Partner</span>
+          <span class="badge" style="background:rgba(56,161,105,0.2);color:#38A169;border:1px solid rgba(56,161,105,0.28);margin-left:4px;">✓ Verified</span>
+        </div>
+        <button class="notif-btn" onclick="go('notifications')">🔔<div class="notif-dot"></div></button>
+      </div>
+      <div class="stats-row">
+        <div class="stat-box"><div class="stat-icon">🤝</div><div class="stat-val">24</div><div class="stat-label">Connections</div></div>
+        <div class="stat-box"><div class="stat-icon">🏥</div><div class="stat-val">18</div><div class="stat-label">Hospitals</div></div>
+        <div class="stat-box"><div class="stat-icon">💬</div><div class="stat-val">7</div><div class="stat-label">Messages</div></div>
+        <div class="stat-box"><div class="stat-icon">📊</div><div class="stat-val">78%</div><div class="stat-label">Profile</div></div>
+      </div>
+    </div>
+    <div class="scroll-body" style="padding:12px 12px 0;">
+      <div class="announce-card"><div class="announce-icon">📢</div><div><div class="announce-title">QCI MVT Conclave 2026</div><div class="announce-desc">Registration open for overseas partners. April 14, New Delhi. Early bird till March 31.</div><button class="announce-link">Register Now →</button></div></div>
+      <div style="margin-bottom:11px;">
+        <div class="sec-header"><span class="sec-title">NABH Hospitals Near You</span><button class="sec-link" onclick="go('discover')">See All</button></div>
+        <div class="hscroll">
+          <div class="mini-card" onclick="go('hospital-detail')"><div class="mini-logo">🏥</div><div class="mini-name">Apollo Hospitals Delhi</div><div class="mini-loc">New Delhi</div><div style="margin:5px 0 6px;"><span class="badge" style="background:rgba(0,137,123,0.15);color:#00897B;border:1px solid rgba(0,137,123,0.22);font-size:9px;">NABH</span></div><button class="btn-small" onclick="event.stopPropagation()">+ Connect</button></div>
+          <div class="mini-card" onclick="go('hospital-detail')"><div class="mini-logo">🏥</div><div class="mini-name">Medanta Gurugram</div><div class="mini-loc">Gurugram</div><div style="margin:5px 0 6px;"><span class="badge" style="background:rgba(0,137,123,0.15);color:#00897B;border:1px solid rgba(0,137,123,0.22);font-size:9px;">NABH</span></div><button class="btn-small" onclick="event.stopPropagation()">+ Connect</button></div>
+          <div class="mini-card" onclick="go('hospital-detail')"><div class="mini-logo">🏥</div><div class="mini-name">Fortis Healthcare</div><div class="mini-loc">Mumbai</div><div style="margin:5px 0 6px;"><span class="badge" style="background:rgba(0,137,123,0.15);color:#00897B;border:1px solid rgba(0,137,123,0.22);font-size:9px;">NABH</span></div><button class="btn-small connected" onclick="event.stopPropagation()">Connected ✓</button></div>
+        </div>
+      </div>
+      <div style="margin-bottom:11px;">
+        <div class="sec-header"><span class="sec-title">Referral Activity</span></div>
+        <div class="activity-item unread"><div class="activity-icon-wrap">🤝</div><div><div class="activity-text">Apollo Hospitals accepted your connection request</div><div class="activity-time">5 min ago</div></div></div>
+        <div class="activity-item unread"><div class="activity-icon-wrap">💬</div><div><div class="activity-text">MediBridge India: "3 cardiac patients ready for Q2"</div><div class="activity-time">1 hr ago</div></div></div>
+        <div class="activity-item"><div class="activity-icon-wrap">📋</div><div><div class="activity-text">Download: India MVT Cost Benchmarks 2026 (QCI Report)</div><div class="activity-time">Yesterday</div></div></div>
+      </div>
+    </div>
+    <div class="bottom-nav">
+      <button class="bnav-item active" onclick="go('dashboard-overseas')"><span class="bnav-icon">🏠</span><span class="bnav-label">Home</span><div class="bnav-dot"></div></button>
+      <button class="bnav-item" onclick="go('discover')"><span class="bnav-icon">🔍</span><span class="bnav-label">Discover</span></button>
+      <button class="bnav-item" onclick="go('directory')"><span class="bnav-icon">📋</span><span class="bnav-label">Directory</span></button>
+      <button class="bnav-item" onclick="go('messages')"><span class="bnav-icon">💬</span><span class="bnav-label">Messages</span></button>
+      <button class="bnav-item" onclick="go('profile')"><span class="bnav-icon">👤</span><span class="bnav-label">Profile</span></button>
+    </div>
+  </div>
+
+  <!-- ── HOSPITAL DASHBOARD ── -->
+  <div class="screen" id="screen-dashboard-hospital">
+    <div class="dash-hero" style="background:linear-gradient(135deg,#1A4FA0,#2563B0);">
+      <div class="dash-toprow">
+        <div>
+          <div class="dash-greeting">Good morning 👋</div>
+          <div class="dash-name">Apollo Hospitals Delhi</div>
+          <span class="badge" style="background:rgba(0,137,123,0.28);color:#00BFA5;border:1px solid rgba(0,191,165,0.35);">🏥 Hospital</span>
+          <span class="badge" style="background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.3);margin-left:4px;">NABH Accredited</span>
+        </div>
+        <button class="notif-btn" onclick="go('notifications')">🔔<div class="notif-dot"></div></button>
+      </div>
+      <div class="stats-row">
+        <div class="stat-box"><div class="stat-icon">🌍</div><div class="stat-val">48</div><div class="stat-label">Partners</div></div>
+        <div class="stat-box"><div class="stat-icon">🩺</div><div class="stat-val">320</div><div class="stat-label">MVT Cases</div></div>
+        <div class="stat-box"><div class="stat-icon">⭐</div><div class="stat-val">4.9</div><div class="stat-label">Rating</div></div>
+        <div class="stat-box"><div class="stat-icon">📊</div><div class="stat-val">91%</div><div class="stat-label">Profile</div></div>
+      </div>
+    </div>
+    <div class="scroll-body" style="padding:12px 12px 0;">
+      <!-- Pending enquiries -->
+      <div style="background:linear-gradient(135deg,rgba(26,79,160,0.08),#EBF4FF);border:1px solid rgba(26,79,160,0.2);border-radius:13px;padding:12px;margin-bottom:11px;">
+        <div style="font-size:12px;font-weight:800;color:#0A1628;margin-bottom:6px;">📩 Pending Patient Enquiries</div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <div style="font-size:28px;font-weight:800;color:#1A4FA0;font-family:Georgia,serif;">12</div>
+          <div style="font-size:11px;color:#4A5568;line-height:1.5;">New enquiries from overseas partners awaiting response from IPD team.</div>
+        </div>
+        <button class="btn-primary qci" style="margin-top:9px;padding:9px;">Review Enquiries</button>
+      </div>
+      <div style="margin-bottom:11px;">
+        <div class="sec-header"><span class="sec-title">Top Referral Partners</span><button class="sec-link" onclick="go('connections')">All</button></div>
+        <div class="activity-item"><div class="activity-icon-wrap">🌍</div><div style="flex:1"><div class="activity-text">HealthBridge UAE — 8 referrals this month</div><div class="activity-time">Cardiac, Oncology</div></div><button class="btn-small" onclick="go('chat')" style="font-size:10px;padding:5px 9px;">Chat</button></div>
+        <div class="activity-item"><div class="activity-icon-wrap">🌍</div><div style="flex:1"><div class="activity-text">MedTour Kenya — 5 referrals this month</div><div class="activity-time">Orthopedics</div></div><button class="btn-small" onclick="go('chat')" style="font-size:10px;padding:5px 9px;">Chat</button></div>
+      </div>
+      <div style="margin-bottom:11px;">
+        <div class="sec-header"><span class="sec-title">Accreditation Status</span></div>
+        <div style="background:#fff;border-radius:12px;padding:12px;border:1px solid #EEF1F6;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;"><span style="font-size:12px;font-weight:700;color:#0A1628;">NABH Accreditation</span><span class="badge" style="background:#D1FAE5;color:#064E3B;border:1px solid #A7F3D0;">Valid till Dec 2027</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-size:12px;font-weight:700;color:#0A1628;">JCI Certification</span><span class="badge" style="background:#DBEAFE;color:#1E3A5F;border:1px solid #BFDBFE;">Valid till Jun 2026</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="bottom-nav">
+      <button class="bnav-item active" onclick="go('dashboard-hospital')"><span class="bnav-icon">🏠</span><span class="bnav-label">Home</span><div class="bnav-dot"></div></button>
+      <button class="bnav-item" onclick="go('discover')"><span class="bnav-icon">🔍</span><span class="bnav-label">Partners</span></button>
+      <button class="bnav-item" onclick="go('directory')"><span class="bnav-icon">📋</span><span class="bnav-label">Directory</span></button>
+      <button class="bnav-item" onclick="go('messages')"><span class="bnav-icon">💬</span><span class="bnav-label">Messages</span></button>
+      <button class="bnav-item" onclick="go('profile')"><span class="bnav-icon">👤</span><span class="bnav-label">Profile</span></button>
+    </div>
+  </div>
+
+  <!-- ── FACILITATOR DASHBOARD ── -->
+  <div class="screen" id="screen-dashboard-facilitator">
+    <div class="dash-hero" style="background:linear-gradient(135deg,#065A48,#0D7A62);">
+      <div class="dash-toprow">
+        <div>
+          <div class="dash-greeting">Good morning 👋</div>
+          <div class="dash-name">MediBridge India</div>
+          <span class="badge" style="background:rgba(212,160,23,0.3);color:#FCD34D;border:1px solid rgba(212,160,23,0.4);">⚠️ Verification Pending</span>
+        </div>
+        <button class="notif-btn" onclick="go('notifications')">🔔<div class="notif-dot"></div></button>
+      </div>
+      <div class="stats-row">
+        <div class="stat-box"><div class="stat-icon">🏥</div><div class="stat-val">12</div><div class="stat-label">Empanelled</div></div>
+        <div class="stat-box"><div class="stat-icon">🌍</div><div class="stat-val">6</div><div class="stat-label">Partners</div></div>
+        <div class="stat-box"><div class="stat-icon">🩺</div><div class="stat-val">95</div><div class="stat-label">Referrals</div></div>
+        <div class="stat-box"><div class="stat-icon">📊</div><div class="stat-val">55%</div><div class="stat-label">Profile</div></div>
+      </div>
+    </div>
+    <div class="scroll-body" style="padding:12px 12px 0;">
+      <!-- Verification Banner -->
+      <div class="verif-banner">
+        <div class="verif-title">⚠️ Complete Your Verification to Get the Verified Badge</div>
+        <div class="verif-desc">Upload the required documents to get the QCI Verified Facilitator badge. Verified facilitators appear higher in search results and gain full platform access.</div>
+        <div class="verif-doc-list">
+          <div class="verif-doc-item">📄 GST Registration Certificate<span class="doc-status uploaded">✓ Uploaded</span></div>
+          <div class="verif-doc-item">🏢 Company Incorporation Certificate<span class="doc-status uploaded">✓ Uploaded</span></div>
+          <div class="verif-doc-item">👤 Director/Owner ID Proof<span class="doc-status pending">⏳ Under Review</span></div>
+          <div class="verif-doc-item">📋 NABH Empanelment Letter<span class="doc-status missing">✗ Missing</span></div>
+          <div class="verif-doc-item">🔐 ISO / Quality Certificate<span class="doc-status missing">✗ Missing</span></div>
+        </div>
+        <button class="btn-primary" style="background:linear-gradient(135deg,#D4A017,#F59E0B);box-shadow:0 4px 15px rgba(212,160,23,0.3);padding:10px;" onclick="go('facilitator-verify')">Upload Documents on NABH Portal →</button>
+      </div>
+      <div style="margin-bottom:11px;">
+        <div class="sec-header"><span class="sec-title">My Empanelled Hospitals</span><button class="sec-link" onclick="go('discover')">Find More</button></div>
+        <div class="activity-item"><div class="activity-icon-wrap">🏥</div><div style="flex:1"><div class="activity-text">Apollo Hospitals Delhi</div><div class="activity-time">Cardiology, Oncology · New Delhi</div></div><button class="btn-small" onclick="go('chat')" style="font-size:10px;padding:5px 9px;">Chat</button></div>
+        <div class="activity-item"><div class="activity-icon-wrap">🏥</div><div style="flex:1"><div class="activity-text">Fortis Healthcare Mumbai</div><div class="activity-time">Neurology, Orthopedics · Mumbai</div></div><button class="btn-small" onclick="go('chat')" style="font-size:10px;padding:5px 9px;">Chat</button></div>
+      </div>
+    </div>
+    <div class="bottom-nav">
+      <button class="bnav-item active" onclick="go('dashboard-facilitator')"><span class="bnav-icon">🏠</span><span class="bnav-label">Home</span><div class="bnav-dot"></div></button>
+      <button class="bnav-item" onclick="go('discover')"><span class="bnav-icon">🔍</span><span class="bnav-label">Discover</span></button>
+      <button class="bnav-item" onclick="go('facilitator-verify')"><span class="bnav-icon">✅</span><span class="bnav-label">Verify</span></button>
+      <button class="bnav-item" onclick="go('messages')"><span class="bnav-icon">💬</span><span class="bnav-label">Messages</span></button>
+      <button class="bnav-item" onclick="go('profile')"><span class="bnav-icon">👤</span><span class="bnav-label">Profile</span></button>
+    </div>
+  </div>
+
+  <!-- ── ALLIED PROVIDER DASHBOARD ── -->
+  <div class="screen" id="screen-dashboard-allied">
+    <div class="dash-hero" style="background:linear-gradient(135deg,#744210,#975A16);">
+      <div class="dash-toprow">
+        <div>
+          <div class="dash-greeting">Good morning 👋</div>
+          <div class="dash-name">TravelMed Assist</div>
+          <span class="badge" style="background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.28);">⚕️ Allied Provider</span>
+        </div>
+        <button class="notif-btn" onclick="go('notifications')">🔔<div class="notif-dot"></div></button>
+      </div>
+      <div class="stats-row">
+        <div class="stat-box"><div class="stat-icon">🤝</div><div class="stat-val">19</div><div class="stat-label">Connections</div></div>
+        <div class="stat-box"><div class="stat-icon">✈️</div><div class="stat-val">142</div><div class="stat-label">Visa Assists</div></div>
+        <div class="stat-box"><div class="stat-icon">💬</div><div class="stat-val">5</div><div class="stat-label">Messages</div></div>
+        <div class="stat-box"><div class="stat-icon">📊</div><div class="stat-val">68%</div><div class="stat-label">Profile</div></div>
+      </div>
+    </div>
+    <div class="scroll-body" style="padding:12px 12px 0;">
+      <div class="announce-card" style="background:linear-gradient(135deg,rgba(116,66,16,0.08),#FFF7ED);border-color:rgba(116,66,16,0.2);">
+        <div class="announce-icon">✈️</div>
+        <div><div class="announce-title">New Service: e-Medical Visa</div><div class="announce-desc">Now assist patients with e-Medical Visa applications directly through the MVT Connect platform.</div><button class="announce-link">Learn More →</button></div>
+      </div>
+      <div style="margin-bottom:11px;">
+        <div class="sec-header"><span class="sec-title">Services You Offer</span></div>
+        <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:11px;">
+          <span class="badge" style="background:#FFF7ED;color:#744210;border:1px solid rgba(116,66,16,0.25);padding:5px 12px;font-size:11px;">✈️ Medical Visa</span>
+          <span class="badge" style="background:#FFF7ED;color:#744210;border:1px solid rgba(116,66,16,0.25);padding:5px 12px;font-size:11px;">🏨 Accommodation</span>
+          <span class="badge" style="background:#FFF7ED;color:#744210;border:1px solid rgba(116,66,16,0.25);padding:5px 12px;font-size:11px;">🚗 Transfers</span>
+          <span class="badge" style="background:#FFF7ED;color:#744210;border:1px solid rgba(116,66,16,0.25);padding:5px 12px;font-size:11px;">🌐 Translation</span>
+        </div>
+      </div>
+      <div style="margin-bottom:11px;">
+        <div class="sec-header"><span class="sec-title">Recent Activity</span></div>
+        <div class="activity-item unread"><div class="activity-icon-wrap">🤝</div><div><div class="activity-text">Apollo IPD Team requested visa assistance for 2 patients</div><div class="activity-time">30 min ago</div></div></div>
+        <div class="activity-item"><div class="activity-icon-wrap">📋</div><div><div class="activity-text">Visa application status updated for Nairobi Patient</div><div class="activity-time">3 hrs ago</div></div></div>
+      </div>
+    </div>
+    <div class="bottom-nav">
+      <button class="bnav-item active" onclick="go('dashboard-allied')"><span class="bnav-icon">🏠</span><span class="bnav-label">Home</span><div class="bnav-dot"></div></button>
+      <button class="bnav-item" onclick="go('discover')"><span class="bnav-icon">🔍</span><span class="bnav-label">Discover</span></button>
+      <button class="bnav-item" onclick="go('directory')"><span class="bnav-icon">📋</span><span class="bnav-label">Directory</span></button>
+      <button class="bnav-item" onclick="go('messages')"><span class="bnav-icon">💬</span><span class="bnav-label">Messages</span></button>
+      <button class="bnav-item" onclick="go('profile')"><span class="bnav-icon">👤</span><span class="bnav-label">Profile</span></button>
+    </div>
+  </div>
+
+  <!-- ── GENERIC B2B DASHBOARD (fallback) ── -->
+  <div class="screen" id="screen-dashboard">
+    <div class="dash-hero">
+      <div class="dash-toprow">
+        <div>
+          <div class="dash-greeting">Good morning 👋</div>
+          <div class="dash-name">HealthBridge UAE</div>
+          <span class="badge" style="background:rgba(0,137,123,0.2);color:#00BFA5;border:1px solid rgba(0,191,165,0.28);">🌍 Overseas Partner</span>
+        </div>
+        <button class="notif-btn" onclick="go('notifications')">🔔<div class="notif-dot"></div></button>
+      </div>
+      <div class="stats-row">
+        <div class="stat-box"><div class="stat-icon">🤝</div><div class="stat-val">24</div><div class="stat-label">Connections</div></div>
+        <div class="stat-box"><div class="stat-icon">💬</div><div class="stat-val">3</div><div class="stat-label">Messages</div></div>
+        <div class="stat-box"><div class="stat-icon">👁️</div><div class="stat-val">142</div><div class="stat-label">Views</div></div>
+      </div>
+    </div>
+    <div class="scroll-body" style="padding:12px 12px 0;">
+      <div class="announce-card"><div class="announce-icon">📢</div><div><div class="announce-title">QCI Announcement</div><div class="announce-desc">India MVT Conclave 2026 — April 14, New Delhi.</div><button class="announce-link">Learn More →</button></div></div>
+      <div style="margin-bottom:11px;">
+        <div class="sec-header"><span class="sec-title">Suggested for You</span><button class="sec-link" onclick="go('discover')">See All</button></div>
+        <div class="hscroll">
+          <div class="mini-card" onclick="go('hospital-detail')"><div class="mini-logo">🏥</div><div class="mini-name">Apollo Hospitals Delhi</div><div class="mini-loc">New Delhi</div><div style="margin:5px 0 6px;"><span class="badge" style="background:rgba(0,137,123,0.15);color:#00897B;border:1px solid rgba(0,137,123,0.22);font-size:9px;">NABH</span></div><button class="btn-small">+ Connect</button></div>
+          <div class="mini-card" onclick="go('detail')"><div class="mini-logo">🤝</div><div class="mini-name">MediBridge India</div><div class="mini-loc">Bengaluru</div><div style="margin:5px 0 6px;"><span class="badge" style="background:rgba(212,160,23,0.2);color:#D4A017;border:1px solid rgba(212,160,23,0.3);font-size:9px;">⏳ Verifying</span></div><button class="btn-small">+ Connect</button></div>
+        </div>
+      </div>
+      <div style="margin-bottom:11px;">
+        <div class="sec-header"><span class="sec-title">Recent Activity</span></div>
+        <div class="activity-item unread"><div class="activity-icon-wrap">🤝</div><div><div class="activity-text">Apollo Hospitals accepted your connection</div><div class="activity-time">5 min ago</div></div></div>
+        <div class="activity-item unread"><div class="activity-icon-wrap">💬</div><div><div class="activity-text">New message from HealthBridge Kenya</div><div class="activity-time">1 hour ago</div></div></div>
+      </div>
+    </div>
+    <div class="bottom-nav">
+      <button class="bnav-item active" onclick="go('dashboard')"><span class="bnav-icon">🏠</span><span class="bnav-label">Home</span><div class="bnav-dot"></div></button>
+      <button class="bnav-item" onclick="go('discover')"><span class="bnav-icon">🔍</span><span class="bnav-label">Discover</span></button>
+      <button class="bnav-item" onclick="go('directory')"><span class="bnav-icon">📋</span><span class="bnav-label">Directory</span></button>
+      <button class="bnav-item" onclick="go('messages')"><span class="bnav-icon">💬</span><span class="bnav-label">Messages</span></button>
+      <button class="bnav-item" onclick="go('profile')"><span class="bnav-icon">👤</span><span class="bnav-label">Profile</span></button>
+    </div>
+  </div>
+
+  <!-- ── FACILITATOR DOCUMENT UPLOAD ── -->
+  <div class="screen" id="screen-facilitator-verify">
+    <div class="nav-header" style="background:linear-gradient(135deg,#065A48,#0D7A62);"><button class="back-btn" onclick="go('dashboard-facilitator')">←</button><h2>Facilitator Verification</h2></div>
+    <div class="scroll-body" style="padding:14px;display:flex;flex-direction:column;gap:12px;">
+      <div style="background:#E0F5F3;border-radius:12px;padding:13px;border:1px solid rgba(0,137,123,0.3);">
+        <div style="font-size:13px;font-weight:800;color:#00897B;margin-bottom:4px;">🛡️ Get Verified Facilitator Badge</div>
+        <div style="font-size:11px;color:#4A5568;line-height:1.6;">Verified facilitators are approved by QCI and displayed with a ✓ Verified badge across the platform. Patients and hospitals prioritise verified facilitators for referrals and partnerships.</div>
+      </div>
+      <div style="font-size:13px;font-weight:800;color:#0A1628;">Required Documents</div>
+      <!-- Document list -->
+      <div class="verif-doc-item" style="border:1px solid #EEF1F6;border-radius:10px;padding:10px 12px;">
+        <div><div style="font-size:12px;font-weight:700;color:#0A1628;">📄 GST Registration Certificate</div><div style="font-size:10px;color:#8896AD;margin-top:2px;">Valid GST certificate of your organisation</div></div>
+        <span class="doc-status uploaded">✓ Done</span>
+      </div>
+      <div class="verif-doc-item" style="border:1px solid #EEF1F6;border-radius:10px;padding:10px 12px;">
+        <div><div style="font-size:12px;font-weight:700;color:#0A1628;">🏢 Incorporation Certificate</div><div style="font-size:10px;color:#8896AD;margin-top:2px;">MCA/ROC certificate or partnership deed</div></div>
+        <span class="doc-status uploaded">✓ Done</span>
+      </div>
+      <div class="verif-doc-item" style="border:1px solid #EEF1F6;border-radius:10px;padding:10px 12px;">
+        <div><div style="font-size:12px;font-weight:700;color:#0A1628;">👤 Director / Owner KYC</div><div style="font-size:10px;color:#8896AD;margin-top:2px;">Aadhaar + PAN of authorised signatory</div></div>
+        <span class="doc-status pending">⏳ In Review</span>
+      </div>
+      <div class="verif-doc-item" style="border:1.5px dashed #D8DEE9;border-radius:10px;padding:10px 12px;background:#FAFAFA;">
+        <div><div style="font-size:12px;font-weight:700;color:#0A1628;">📋 NABH Empanelment Letter</div><div style="font-size:10px;color:#8896AD;margin-top:2px;">Letter from empanelled NABH hospital</div></div>
+        <span class="doc-status missing">✗ Missing</span>
+      </div>
+      <div class="verif-doc-item" style="border:1.5px dashed #D8DEE9;border-radius:10px;padding:10px 12px;background:#FAFAFA;">
+        <div><div style="font-size:12px;font-weight:700;color:#0A1628;">🔐 ISO / Quality Certificate</div><div style="font-size:10px;color:#8896AD;margin-top:2px;">ISO 9001 or equivalent quality certification</div></div>
+        <span class="doc-status missing">✗ Missing</span>
+      </div>
+      <div class="verif-doc-item" style="border:1.5px dashed #D8DEE9;border-radius:10px;padding:10px 12px;background:#FAFAFA;">
+        <div><div style="font-size:12px;font-weight:700;color:#0A1628;">🌐 Website / Social Proof</div><div style="font-size:10px;color:#8896AD;margin-top:2px;">Organisation website URL for verification</div></div>
+        <span class="doc-status missing">✗ Missing</span>
+      </div>
+      <div style="background:#F3F0FF;border-radius:12px;padding:12px;border:1px solid #DDD6FE;">
+        <div style="font-size:12px;font-weight:800;color:#6B46C1;margin-bottom:5px;">📌 How to Upload Documents</div>
+        <div style="font-size:11px;color:#4A5568;line-height:1.65;">All documents are to be uploaded on the official <strong>NABH Empanelment Portal</strong>. Clicking the button below will take you to the NABH website where you can securely upload and submit your documents for QCI review.</div>
+      </div>
+      <button class="btn-primary purple" onclick="showNabhRedirect()">🔗 Upload on NABH Portal →</button>
+      <div style="text-align:center;color:#8896AD;font-size:10px;">You will be redirected to nabh.co.in for document submission. Verification takes 3–5 business days.</div>
+    </div>
+  </div>
+
+  <!-- ── DISCOVER ── -->
+  <div class="screen" id="screen-discover">
+    <div class="discover-hero">
+      <div class="discover-title">Discover Partners</div>
+      <div class="search-wrap"><span class="search-icon">🔍</span><input class="search-inp" placeholder="Search hospitals, facilitators..." oninput="filterProviders(this.value)"></div>
+      <div class="filter-row">
+        <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
+        <button class="filter-btn" onclick="setFilter('hospital',this)">Hospitals</button>
+        <button class="filter-btn" onclick="setFilter('facilitator',this)">Facilitators</button>
+        <button class="filter-btn" onclick="setFilter('overseas',this)">Overseas</button>
+        <button class="filter-btn" onclick="setFilter('allied',this)">Allied</button>
+      </div>
+    </div>
+    <div class="scroll-body" style="padding:11px;" id="provider-list"></div>
+    <div class="bottom-nav">
+      <button class="bnav-item" onclick="go('dashboard')"><span class="bnav-icon">🏠</span><span class="bnav-label">Home</span></button>
+      <button class="bnav-item active" onclick="go('discover')"><span class="bnav-icon">🔍</span><span class="bnav-label">Discover</span><div class="bnav-dot"></div></button>
+      <button class="bnav-item" onclick="go('directory')"><span class="bnav-icon">📋</span><span class="bnav-label">Directory</span></button>
+      <button class="bnav-item" onclick="go('messages')"><span class="bnav-icon">💬</span><span class="bnav-label">Messages</span></button>
+      <button class="bnav-item" onclick="go('profile')"><span class="bnav-icon">👤</span><span class="bnav-label">Profile</span></button>
+    </div>
+  </div>
+
+  <!-- ── B2B PROVIDER DETAIL ── -->
+  <div class="screen" id="screen-detail">
+    <div class="detail-hero">
+      <button class="detail-back" onclick="go('discover')">←</button>
+      <div class="detail-row">
+        <div class="detail-logo-wrap" id="detail-logo">🏥</div>
+        <div>
+          <div class="detail-name" id="detail-name">Apollo Hospitals Delhi</div>
+          <div class="detail-loc" id="detail-loc">📍 New Delhi</div>
+          <div>
+            <span class="badge" style="background:rgba(0,137,123,0.25);color:#00BFA5;border:1px solid rgba(0,191,165,0.3);" id="detail-accr">NABH</span>
+            <span class="badge" style="background:rgba(56,161,105,0.2);color:#38A169;border:1px solid rgba(56,161,105,0.3);margin-left:4px;">✓ Verified</span>
+          </div>
+        </div>
+      </div>
+      <div class="detail-actions">
+        <button class="detail-btn" id="connect-btn" data-pid="1" onclick="toggleConnect()">🤝 Connect</button>
+        <button class="detail-btn secondary" onclick="go('chat')">💬 Message</button>
+        <button class="detail-btn secondary" onclick="this.textContent=this.textContent==='🔖'?'🔖✓':'🔖'">🔖</button>
+      </div>
+    </div>
+    <div class="scroll-body">
+      <div class="detail-section"><div class="detail-sec-title">About</div><div class="detail-about" id="detail-about">Super-specialty tertiary care hospital with 700+ beds and a dedicated IPD.</div></div>
+      <div class="detail-section">
+        <div class="detail-sec-title">Details</div>
+        <div class="detail-row-item"><span class="detail-row-label">Specialties</span><span class="detail-row-val" id="detail-spec">Cardiology, Oncology</span></div>
+        <div class="detail-row-item"><span class="detail-row-label">Location</span><span class="detail-row-val" id="detail-loc2">New Delhi</span></div>
+        <div class="detail-row-item"><span class="detail-row-label">Accreditation</span><span class="detail-row-val">NABH Accredited</span></div>
+        <div class="detail-row-item" style="border:none"><span class="detail-row-label">Rating</span><span class="detail-row-val">⭐ 4.9 / 5.0</span></div>
+      </div>
+      <div class="contact-box">
+        <div class="contact-box-title">🌐 Website &amp; Contact</div>
+        <div class="contact-box-val">www.apollohospitals.com</div>
+        <div class="contact-box-val" id="contact-locked" style="color:#8896AD;font-size:11px;margin-top:4px;">📞 Connect to view contact details</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── HOSPITAL DETAIL (Rich) ── -->
+  <div class="screen" id="screen-hospital-detail">
+    <div class="detail-hero" style="background:linear-gradient(135deg,#1A4FA0,#2563B0);">
+      <button class="detail-back" onclick="go('discover')">←</button>
+      <div class="detail-row">
+        <div class="detail-logo-wrap">🏥</div>
+        <div>
+          <div class="detail-name">Apollo Hospitals Delhi</div>
+          <div class="detail-loc">📍 Sarita Vihar, New Delhi</div>
+          <div style="display:flex;gap:4px;flex-wrap:wrap;">
+            <span class="badge" style="background:rgba(0,137,123,0.28);color:#00BFA5;border:1px solid rgba(0,191,165,0.35);">NABH</span>
+            <span class="badge" style="background:rgba(196,181,253,0.28);color:#C4B5FD;border:1px solid rgba(196,181,253,0.4);">JCI</span>
+            <span class="badge" style="background:rgba(56,161,105,0.18);color:#68D391;border:1px solid rgba(104,211,145,0.28);">✓ QCI Verified</span>
+          </div>
+        </div>
+      </div>
+      <div class="detail-actions">
+        <button class="detail-btn" onclick="this.textContent=this.textContent.includes('Connect')?'✓ Connected':'🤝 Connect'">🤝 Connect</button>
+        <button class="detail-btn secondary" onclick="go('chat')">💬 Message</button>
+        <button class="detail-btn secondary" onclick="this.textContent=this.textContent==='🔖'?'💾':'🔖'">🔖</button>
+      </div>
+    </div>
+
+    <!-- Tabbed detail view -->
+    <div class="hosp-tab-row">
+      <div class="hosp-tab active" onclick="switchHospTab(0,this)">Overview</div>
+      <div class="hosp-tab" onclick="switchHospTab(1,this)">Depts</div>
+      <div class="hosp-tab" onclick="switchHospTab(2,this)">Doctors</div>
+      <div class="hosp-tab" onclick="switchHospTab(3,this)">Accred.</div>
+      <div class="hosp-tab" onclick="switchHospTab(4,this)">Reviews</div>
+    </div>
+
+    <div class="scroll-body">
+      <!-- OVERVIEW TAB -->
+      <div class="hosp-tab-content active" id="htab-0">
+        <div class="infra-grid">
+          <div class="infra-card"><div class="infra-val">700+</div><div class="infra-label">Total Beds</div></div>
+          <div class="infra-card"><div class="infra-val">40+</div><div class="infra-label">Specialities</div></div>
+          <div class="infra-card"><div class="infra-val">500+</div><div class="infra-label">Intl. Patients/yr</div></div>
+          <div class="infra-card"><div class="infra-val">1983</div><div class="infra-label">Established</div></div>
+          <div class="infra-card"><div class="infra-val">52</div><div class="infra-label">OT Theatres</div></div>
+          <div class="infra-card"><div class="infra-val">24/7</div><div class="infra-label">Emergency</div></div>
+        </div>
+        <div style="font-size:12px;font-weight:800;color:#0A1628;margin-bottom:7px;">About</div>
+        <div style="font-size:12px;color:#4A5568;line-height:1.65;margin-bottom:11px;">Apollo Hospitals Delhi is a super-specialty tertiary care hospital and flagship of the Apollo Hospitals Group. It has treated over 2 million patients from 150+ countries. The hospital has a dedicated International Patient Department (IPD) with multilingual coordinators for Arabic, French, Swahili, and Russian.</div>
+        <div style="font-size:12px;font-weight:800;color:#0A1628;margin-bottom:7px;">Key Specialities</div>
+        <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:11px;">
+          <span class="spec-tag">❤️ Cardiology</span><span class="spec-tag">🎗️ Oncology</span><span class="spec-tag">🧠 Neurology</span><span class="spec-tag">🦴 Orthopedics</span><span class="spec-tag">🫀 Transplants</span><span class="spec-tag">👁️ Ophthalmology</span><span class="spec-tag">🦷 Dental</span>
+        </div>
+        <div class="contact-box">
+          <div class="contact-box-title">📍 Address &amp; Contact</div>
+          <div class="contact-box-val">Sarita Vihar, Mathura Road, New Delhi — 110076</div>
+          <div class="contact-box-val" style="margin-top:4px;">🌐 www.apollohospitals.com</div>
+          <div class="contact-box-val" style="margin-top:4px;color:#8896AD;font-size:11px;">📞 Connect to view direct contact</div>
+        </div>
+      </div>
+
+      <!-- DEPARTMENTS TAB -->
+      <div class="hosp-tab-content" id="htab-1">
+        <div style="font-size:12px;font-weight:800;color:#0A1628;margin-bottom:9px;">Clinical Departments</div>
+        <div class="dept-item"><div class="dept-icon">❤️</div><div><div class="dept-name">Cardiac Sciences</div><div class="dept-meta">CTVS · Interventional Cardiology · Heart Failure</div></div></div>
+        <div class="dept-item"><div class="dept-icon">🎗️</div><div><div class="dept-name">Cancer Institute</div><div class="dept-meta">Medical · Surgical · Radiation Oncology · Bone Marrow</div></div></div>
+        <div class="dept-item"><div class="dept-icon">🧠</div><div><div class="dept-name">Neurosciences</div><div class="dept-meta">Neurology · Neurosurgery · Spine · Neuro-Rehab</div></div></div>
+        <div class="dept-item"><div class="dept-icon">🦴</div><div><div class="dept-name">Orthopaedics &amp; Joint Replacement</div><div class="dept-meta">Hip · Knee · Shoulder · Sports Medicine</div></div></div>
+        <div class="dept-item"><div class="dept-icon">🫀</div><div><div class="dept-name">Transplant Institute</div><div class="dept-meta">Kidney · Liver · Heart · Lung Transplants</div></div></div>
+        <div class="dept-item"><div class="dept-icon">👁️</div><div><div class="dept-name">Ophthalmology</div><div class="dept-meta">LASIK · Cataract · Retina · Glaucoma</div></div></div>
+        <div class="dept-item"><div class="dept-icon">👶</div><div><div class="dept-name">Fertility &amp; IVF</div><div class="dept-meta">IVF · IUI · Egg Freezing · ICSI</div></div></div>
+        <div class="dept-item" style="border:none"><div class="dept-icon">🌐</div><div><div class="dept-name">International Patient Dept.</div><div class="dept-meta">Visa · Accommodation · Multilingual Coordinators</div></div></div>
+      </div>
+
+      <!-- DOCTORS TAB -->
+      <div class="hosp-tab-content" id="htab-2">
+        <div style="font-size:12px;font-weight:800;color:#0A1628;margin-bottom:9px;">Senior Consultants</div>
+        <div class="doctor-card"><div class="doctor-av">👨‍⚕️</div><div><div class="doctor-name">Dr. Rajesh Sharma</div><div class="doctor-spec">Sr. Consultant — Cardiac Surgery</div><div class="doctor-exp">28 yrs exp · 3000+ CTVS procedures</div></div></div>
+        <div class="doctor-card"><div class="doctor-av">👩‍⚕️</div><div><div class="doctor-name">Dr. Priya Mehta</div><div class="doctor-spec">Director — Oncology &amp; BMT</div><div class="doctor-exp">22 yrs exp · Fellowship, MD Anderson</div></div></div>
+        <div class="doctor-card"><div class="doctor-av">👨‍⚕️</div><div><div class="doctor-name">Dr. Anil Gupta</div><div class="doctor-spec">HOD — Neurosciences</div><div class="doctor-exp">25 yrs exp · 1500+ brain surgeries</div></div></div>
+        <div class="doctor-card"><div class="doctor-av">👩‍⚕️</div><div><div class="doctor-name">Dr. Sunita Rao</div><div class="doctor-spec">Sr. Consultant — Transplant Surgery</div><div class="doctor-exp">18 yrs exp · 400+ liver transplants</div></div></div>
+        <div class="doctor-card" style="border:none"><div class="doctor-av">👨‍⚕️</div><div><div class="doctor-name">Dr. Vivek Jain</div><div class="doctor-spec">Head — Joint Replacement</div><div class="doctor-exp">20 yrs exp · 5000+ knee/hip replacements</div></div></div>
+      </div>
+
+      <!-- ACCREDITATIONS TAB -->
+      <div class="hosp-tab-content" id="htab-3">
+        <div style="font-size:12px;font-weight:800;color:#0A1628;margin-bottom:9px;">Accreditations &amp; Certifications</div>
+        <div style="flex-wrap:wrap;display:flex;">
+          <span class="accr-chip gold">🏅 NABH Accredited · Valid Dec 2027</span>
+          <span class="accr-chip blue">🌐 JCI Accredited · Valid Jun 2026</span>
+          <span class="accr-chip teal">🔬 NABL Certified Laboratory</span>
+          <span class="accr-chip gold">📋 ISO 9001:2015 Certified</span>
+          <span class="accr-chip teal">🛡️ QCI MVT Registered</span>
+          <span class="accr-chip blue">🌏 150+ Countries Served</span>
+        </div>
+        <div style="margin-top:13px;font-size:12px;font-weight:800;color:#0A1628;margin-bottom:8px;">International Patient Services</div>
+        <div class="detail-row-item"><span class="detail-row-label">Visa Assistance</span><span class="detail-row-val">✓ Available</span></div>
+        <div class="detail-row-item"><span class="detail-row-label">Airport Pickup</span><span class="detail-row-val">✓ Available</span></div>
+        <div class="detail-row-item"><span class="detail-row-label">Language Support</span><span class="detail-row-val">Arabic, French, Swahili</span></div>
+        <div class="detail-row-item" style="border:none"><span class="detail-row-label">Insurance Tie-ups</span><span class="detail-row-val">30+ International Insurers</span></div>
+      </div>
+
+      <!-- REVIEWS TAB -->
+      <div class="hosp-tab-content" id="htab-4">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:13px;">
+          <div style="text-align:center;"><div style="font-size:30px;font-weight:800;color:#D4A017;font-family:Georgia,serif;">4.9</div><div style="color:#D4A017;font-size:14px;">★★★★★</div><div style="color:#8896AD;font-size:10px;margin-top:2px;">824 reviews</div></div>
+          <div style="flex:1;">
+            <div style="display:flex;align-items:center;gap:5px;margin-bottom:4px;"><span style="color:#8896AD;font-size:10px;width:14px;">5★</span><div style="flex:1;height:5px;background:#EEF1F6;border-radius:3px;overflow:hidden;"><div style="width:78%;height:100%;background:#D4A017;border-radius:3px;"></div></div><span style="color:#8896AD;font-size:10px;">78%</span></div>
+            <div style="display:flex;align-items:center;gap:5px;margin-bottom:4px;"><span style="color:#8896AD;font-size:10px;width:14px;">4★</span><div style="flex:1;height:5px;background:#EEF1F6;border-radius:3px;overflow:hidden;"><div style="width:16%;height:100%;background:#D4A017;border-radius:3px;"></div></div><span style="color:#8896AD;font-size:10px;">16%</span></div>
+            <div style="display:flex;align-items:center;gap:5px;"><span style="color:#8896AD;font-size:10px;width:14px;">3★</span><div style="flex:1;height:5px;background:#EEF1F6;border-radius:3px;overflow:hidden;"><div style="width:6%;height:100%;background:#D4A017;border-radius:3px;"></div></div><span style="color:#8896AD;font-size:10px;">6%</span></div>
+          </div>
+        </div>
+        <div class="review-card"><div style="display:flex;justify-content:space-between;margin-bottom:5px;"><span style="font-size:12px;font-weight:700;color:#0A1628;">Mohammed A.</span><span style="color:#D4A017;font-size:11px;">★★★★★</span></div><div style="font-size:11px;color:#4A5568;line-height:1.55;">Excellent cardiac care. IPD team helped with visa, accommodation, and airport pickup. Surgery was successful.</div><div style="font-size:10px;color:#8896AD;margin-top:5px;">Nigeria · Cardiac Surgery · Feb 2026</div></div>
+        <div class="review-card"><div style="display:flex;justify-content:space-between;margin-bottom:5px;"><span style="font-size:12px;font-weight:700;color:#0A1628;">Sara K.</span><span style="color:#D4A017;font-size:11px;">★★★★★</span></div><div style="font-size:11px;color:#4A5568;line-height:1.55;">World-class doctors, clean facility, supportive multilingual staff. Cost was much lower than my home country.</div><div style="font-size:10px;color:#8896AD;margin-top:5px;">Kenya · Orthopedics · Jan 2026</div></div>
+        <div class="review-card" style="margin-bottom:0;"><div style="display:flex;justify-content:space-between;margin-bottom:5px;"><span style="font-size:12px;font-weight:700;color:#0A1628;">Ahmed R.</span><span style="color:#D4A017;font-size:11px;">★★★★☆</span></div><div style="font-size:11px;color:#4A5568;line-height:1.55;">Very professional team. Arabic language coordinator was extremely helpful throughout my stay for liver transplant.</div><div style="font-size:10px;color:#8896AD;margin-top:5px;">UAE · Liver Transplant · Dec 2025</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MESSAGES ── -->
+  <div class="screen" id="screen-messages">
+    <div class="nav-header"><h2>Messages</h2></div>
+    <div class="scroll-body">
+      <div class="msg-item unread" onclick="go('chat')"><div class="msg-avatar">🏥</div><div style="flex:1;min-width:0;"><div style="display:flex;justify-content:space-between;"><span class="msg-from">Apollo Hospitals Delhi</span><span class="msg-time">2m</span></div><div class="msg-preview">Thank you for connecting! Our IPD team will reach out shortly...</div></div><div class="msg-badge">2</div></div>
+      <div class="msg-item" onclick="go('chat')"><div class="msg-avatar">🌍</div><div style="flex:1;min-width:0;"><div style="display:flex;justify-content:space-between;"><span class="msg-from">HealthBridge Kenya</span><span class="msg-time">1h</span></div><div class="msg-preview">We have 3 cardiology patients lined up for Q2...</div></div></div>
+      <div class="msg-item unread" onclick="go('chat')"><div class="msg-avatar">🤝</div><div style="flex:1;min-width:0;"><div style="display:flex;justify-content:space-between;"><span class="msg-from">MediBridge India</span><span class="msg-time">3h</span></div><div class="msg-preview">Could you share your hospital infrastructure details?</div></div><div class="msg-badge">1</div></div>
+    </div>
+    <div class="bottom-nav">
+      <button class="bnav-item" onclick="go('dashboard')"><span class="bnav-icon">🏠</span><span class="bnav-label">Home</span></button>
+      <button class="bnav-item" onclick="go('discover')"><span class="bnav-icon">🔍</span><span class="bnav-label">Discover</span></button>
+      <button class="bnav-item" onclick="go('directory')"><span class="bnav-icon">📋</span><span class="bnav-label">Directory</span></button>
+      <button class="bnav-item active" onclick="go('messages')"><span class="bnav-icon">💬</span><span class="bnav-label">Messages</span><div class="bnav-dot"></div></button>
+      <button class="bnav-item" onclick="go('profile')"><span class="bnav-icon">👤</span><span class="bnav-label">Profile</span></button>
+    </div>
+  </div>
+
+  <!-- ── CHAT ── -->
+  <div class="screen" id="screen-chat">
+    <div class="chat-header">
+      <button class="chat-back" onclick="go('messages')">←</button>
+      <div class="chat-avatar">🏥</div>
+      <div><div class="chat-name">Apollo Hospitals Delhi</div><div class="chat-online">● Online · IPD Coordinator</div></div>
+    </div>
+    <div class="chat-body" id="chat-body">
+      <div class="bubble-wrap"><div class="bubble them">Hello! We noticed your profile on Bharat Health Connect.<div class="bubble-time">10:32 AM</div></div></div>
+      <div class="bubble-wrap me"><div class="bubble me">Hi! How can we assist you?<div class="bubble-time">10:35 AM ✓✓</div></div></div>
+      <div class="bubble-wrap"><div class="bubble them">We have patients from Kenya seeking cardiac surgery. Can you share details about your cardiology department?<div class="bubble-time">10:36 AM</div></div></div>
+      <div class="bubble-wrap me"><div class="bubble me">Absolutely! Our cardiac sciences department is NABH accredited with 2000+ open heart surgeries and dedicated IPD coordinators.<div class="bubble-time">10:40 AM ✓✓</div></div></div>
+      <div class="bubble-wrap"><div class="bubble them">Excellent! Could we schedule a call to discuss patient volumes?<div class="bubble-time">10:42 AM</div></div></div>
+    </div>
+    <div class="chat-input-row">
+      <input class="chat-inp" id="chat-inp" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendMsg()">
+      <button class="chat-send" onclick="sendMsg()">➤</button>
+    </div>
+  </div>
+
+  <!-- ── NOTIFICATIONS ── -->
+  <div class="screen" id="screen-notifications">
+    <div class="nav-header"><button class="back-btn" onclick="go('dashboard')">←</button><h2>Notifications</h2><button class="hdr-right" onclick="markAllRead()">Mark all read</button></div>
+    <div class="scroll-body" id="notif-list"></div>
+  </div>
+
+  <!-- ── DIRECTORY ── -->
+  <div class="screen" id="screen-directory">
+    <div class="nav-header"><h2>Ecosystem Directory</h2></div>
+    <div class="scroll-body" style="padding:13px;">
+      <div class="dir-type-header"><span class="dir-type-title">Hospitals 🏥</span><span class="badge" style="background:rgba(255,107,0,0.14);color:#FF6B00;border:1px solid rgba(255,107,0,0.22);">8 listed</span></div>
+      <div class="dir-item" onclick="go('hospital-detail')"><span class="dir-logo">🏥</span><div style="flex:1"><div class="dir-name">Apollo Hospitals Delhi</div><div class="dir-meta">New Delhi · ⭐ 4.9 · 700 beds</div></div><span class="badge" style="background:rgba(0,137,123,0.14);color:#00897B;border:1px solid rgba(0,137,123,0.22);font-size:9px;">NABH</span></div>
+      <div class="dir-item" onclick="go('hospital-detail')"><span class="dir-logo">🏥</span><div style="flex:1"><div class="dir-name">Fortis Healthcare</div><div class="dir-meta">Mumbai · ⭐ 4.8 · 400 beds</div></div><span class="badge" style="background:rgba(0,137,123,0.14);color:#00897B;border:1px solid rgba(0,137,123,0.22);font-size:9px;">NABH</span></div>
+      <div class="dir-item" onclick="go('hospital-detail')"><span class="dir-logo">🏥</span><div style="flex:1"><div class="dir-name">Manipal Hospitals</div><div class="dir-meta">Bengaluru · ⭐ 4.9 · 600 beds</div></div><span class="badge" style="background:rgba(0,137,123,0.14);color:#00897B;border:1px solid rgba(0,137,123,0.22);font-size:9px;">NABH</span></div>
+      <div class="dir-item" onclick="go('hospital-detail')"><span class="dir-logo">🏥</span><div style="flex:1"><div class="dir-name">AIIMS New Delhi</div><div class="dir-meta">New Delhi · ⭐ 4.8 · 2000 beds</div></div><span class="badge" style="background:rgba(0,137,123,0.14);color:#00897B;border:1px solid rgba(0,137,123,0.22);font-size:9px;">NABH</span></div>
+      <div style="margin-top:13px;" class="dir-type-header"><span class="dir-type-title">Facilitators 🤝</span><span class="badge" style="background:rgba(255,107,0,0.14);color:#FF6B00;border:1px solid rgba(255,107,0,0.22);">2 listed</span></div>
+      <div class="dir-item" onclick="go('detail')"><span class="dir-logo">🤝</span><div style="flex:1"><div class="dir-name">MediBridge India</div><div class="dir-meta">Bengaluru · ⭐ 4.7</div></div><span class="badge" style="background:rgba(212,160,23,0.15);color:#D4A017;border:1px solid rgba(212,160,23,0.28);font-size:9px;">⏳ Verifying</span></div>
+      <div class="dir-item" onclick="go('detail')"><span class="dir-logo">🤝</span><div style="flex:1"><div class="dir-name">IndiaCare Facilitation</div><div class="dir-meta">Hyderabad · ⭐ 4.5</div></div><span class="badge" style="background:rgba(56,161,105,0.14);color:#38A169;border:1px solid rgba(56,161,105,0.22);font-size:9px;">✓ Verified</span></div>
+      <div style="margin-top:13px;" class="dir-type-header"><span class="dir-type-title">Overseas Partners 🌍</span><span class="badge" style="background:rgba(255,107,0,0.14);color:#FF6B00;border:1px solid rgba(255,107,0,0.22);">2 listed</span></div>
+      <div class="dir-item"><span class="dir-logo">🌍</span><div style="flex:1"><div class="dir-name">Global Health Connect UAE</div><div class="dir-meta">Dubai, UAE · ⭐ 4.6</div></div><span class="badge" style="background:rgba(56,161,105,0.14);color:#38A169;border:1px solid rgba(56,161,105,0.22);font-size:9px;">✓ Verified</span></div>
+      <div class="dir-item"><span class="dir-logo">🌍</span><div style="flex:1"><div class="dir-name">HealthBridge Kenya</div><div class="dir-meta">Nairobi, Kenya · ⭐ 4.4</div></div></div>
+      <div style="margin-top:13px;" class="dir-type-header"><span class="dir-type-title">Allied Providers ⚕️</span><span class="badge" style="background:rgba(255,107,0,0.14);color:#FF6B00;border:1px solid rgba(255,107,0,0.22);">2 listed</span></div>
+      <div class="dir-item"><span class="dir-logo">✈️</span><div style="flex:1"><div class="dir-name">TravelMed Assist</div><div class="dir-meta">Chennai · ⭐ 4.5 · Visa &amp; Travel</div></div></div>
+      <div class="dir-item"><span class="dir-logo">💱</span><div style="flex:1"><div class="dir-name">ForexCare India</div><div class="dir-meta">Hyderabad · ⭐ 4.3 · Forex</div></div></div>
+    </div>
+    <div class="bottom-nav">
+      <button class="bnav-item" onclick="go('dashboard')"><span class="bnav-icon">🏠</span><span class="bnav-label">Home</span></button>
+      <button class="bnav-item" onclick="go('discover')"><span class="bnav-icon">🔍</span><span class="bnav-label">Discover</span></button>
+      <button class="bnav-item active" onclick="go('directory')"><span class="bnav-icon">📋</span><span class="bnav-label">Directory</span><div class="bnav-dot"></div></button>
+      <button class="bnav-item" onclick="go('messages')"><span class="bnav-icon">💬</span><span class="bnav-label">Messages</span></button>
+      <button class="bnav-item" onclick="go('profile')"><span class="bnav-icon">👤</span><span class="bnav-label">Profile</span></button>
+    </div>
+  </div>
+
+  <!-- ── PROFILE ── -->
+  <div class="screen" id="screen-profile">
+    <div class="profile-hero">
+      <div class="profile-avatar">🌍</div>
+      <div class="profile-name">HealthBridge UAE</div>
+      <div class="profile-loc">Dubai, United Arab Emirates</div>
+      <div>
+        <span class="badge" style="background:rgba(0,137,123,0.25);color:#00BFA5;border:1px solid rgba(0,191,165,0.3);">🌍 Overseas Partner</span>
+        <span class="badge" style="background:rgba(56,161,105,0.2);color:#38A169;border:1px solid rgba(56,161,105,0.3);margin-left:4px;">✓ Verified</span>
+      </div>
+      <div style="margin:10px 14px 0;">
+        <div class="prog-wrap"><div class="prog-label"><span>Profile completeness</span><span style="color:#FFD700;font-weight:700;">82%</span></div><div class="prog-bar"><div class="prog-fill" style="width:82%"></div></div></div>
+        <div class="prog-tip">Add services to reach 100% ›</div>
+      </div>
+      <div class="profile-stats">
+        <div><div class="pstat-val">24</div><div class="pstat-label">Connections</div></div>
+        <div><div class="pstat-val">156</div><div class="pstat-label">Messages</div></div>
+        <div><div class="pstat-val">342</div><div class="pstat-label">Views</div></div>
+      </div>
+    </div>
+    <div class="scroll-body" style="padding:13px;">
+      <button class="menu-item"><span class="menu-icon">✏️</span><span class="menu-label">Edit Profile</span><span class="menu-arrow">›</span></button>
+      <button class="menu-item" onclick="go('connections')"><span class="menu-icon">🤝</span><span class="menu-label">My Connections</span><span class="menu-arrow">›</span></button>
+      <button class="menu-item" onclick="go('notifications')"><span class="menu-icon">🔔</span><span class="menu-label">Notifications</span><span class="menu-arrow">›</span></button>
+      <button class="menu-item" onclick="go('grievance')"><span class="menu-icon">📋</span><span class="menu-label">Grievance &amp; Feedback</span><span class="menu-arrow">›</span></button>
+      <button class="menu-item" onclick="go('admin')"><span class="menu-icon">🛡️</span><span class="menu-label">Admin Panel</span><span class="menu-arrow">›</span></button>
+      <button class="menu-item"><span class="menu-icon">🔒</span><span class="menu-label">Privacy &amp; Security</span><span class="menu-arrow">›</span></button>
+      <button class="menu-item" onclick="go('login')"><span class="menu-icon">🚪</span><span class="menu-label red">Sign Out</span><span class="menu-arrow">›</span></button>
+    </div>
+    <div class="bottom-nav">
+      <button class="bnav-item" onclick="go('dashboard')"><span class="bnav-icon">🏠</span><span class="bnav-label">Home</span></button>
+      <button class="bnav-item" onclick="go('discover')"><span class="bnav-icon">🔍</span><span class="bnav-label">Discover</span></button>
+      <button class="bnav-item" onclick="go('directory')"><span class="bnav-icon">📋</span><span class="bnav-label">Directory</span></button>
+      <button class="bnav-item" onclick="go('messages')"><span class="bnav-icon">💬</span><span class="bnav-label">Messages</span></button>
+      <button class="bnav-item active" onclick="go('profile')"><span class="bnav-icon">👤</span><span class="bnav-label">Profile</span><div class="bnav-dot"></div></button>
+    </div>
+  </div>
+
+  <!-- ── CONNECTIONS ── -->
+  <div class="screen" id="screen-connections">
+    <div class="nav-header"><button class="back-btn" onclick="go('profile')">←</button><h2>My Connections</h2></div>
+    <div class="scroll-body" style="padding:13px;">
+      <div class="conn-item"><div class="conn-logo">🏥</div><div style="flex:1"><div class="conn-name">Fortis Healthcare</div><div class="conn-loc">Mumbai, Maharashtra</div></div><button class="btn-small" onclick="go('chat')">Chat</button></div>
+      <div class="conn-item"><div class="conn-logo">🌍</div><div style="flex:1"><div class="conn-name">HealthBridge Kenya</div><div class="conn-loc">Nairobi, Kenya</div></div><button class="btn-small" onclick="go('chat')">Chat</button></div>
+      <div class="conn-item"><div class="conn-logo">🤝</div><div style="flex:1"><div class="conn-name">MediBridge India<span style="background:rgba(212,160,23,0.2);color:#D4A017;font-size:9px;font-weight:700;padding:2px 7px;border-radius:8px;margin-left:6px;">⏳ Verifying</span></div><div class="conn-loc">Bengaluru, Karnataka</div></div><button class="btn-small" onclick="go('chat')">Chat</button></div>
+      <div class="conn-item"><div class="conn-logo">🏥</div><div style="flex:1"><div class="conn-name">Apollo Hospitals Delhi</div><div class="conn-loc">New Delhi, Delhi</div></div><button class="btn-small connected">Pending</button></div>
+    </div>
+  </div>
+
+  <!-- ── GRIEVANCE ── -->
+  <div class="screen" id="screen-grievance">
+    <div class="nav-header"><button class="back-btn" onclick="go('profile')">←</button><h2>Grievance &amp; Feedback</h2></div>
+    <div class="scroll-body" style="padding:15px;display:flex;flex-direction:column;gap:11px;">
+      <div style="color:#0A1628;font-size:13px;font-weight:800;font-family:Georgia,serif;">Your Submissions</div>
+      <div class="grievance-card"><div style="display:flex;justify-content:space-between;align-items:center;"><span class="grievance-subj">Hospital profile information outdated</span><span class="badge" style="background:rgba(212,160,23,0.18);color:#D4A017;border:1px solid rgba(212,160,23,0.3);">Under Review</span></div><div class="grievance-meta">Data Accuracy · #GR001 · Mar 5, 2026</div></div>
+      <div id="extra-grievances"></div>
+      <div style="color:#0A1628;font-size:13px;font-weight:800;font-family:Georgia,serif;">New Submission</div>
+      <div class="inp-wrap"><span class="inp-icon">📝</span><input class="inp" id="griev-subj" placeholder="Subject"></div>
+      <select class="inp" id="griev-cat"><option>Service Quality</option><option>Data Accuracy</option><option>Technical Issue</option><option>Connection Issue</option><option>Messaging Issue</option><option>Verification Issue</option><option>Other</option></select>
+      <textarea class="inp" id="griev-desc" placeholder="Describe your complaint, feedback, or suggestion..."></textarea>
+      <button class="btn-primary" onclick="submitGrievance()">Submit Grievance</button>
+    </div>
+  </div>
+
+  <!-- ── ADMIN ── -->
+  <div class="screen" id="screen-admin">
+    <div class="nav-header"><button class="back-btn" onclick="go('profile')">←</button><h2>Admin Dashboard</h2><span style="font-size:16px;color:#D4A017;">🛡️</span></div>
+    <div class="scroll-body" style="padding:13px;">
+      <div class="admin-grid">
+        <div class="admin-stat"><div class="admin-stat-icon">👥</div><div class="admin-stat-val" style="color:#00897B;">1,382</div><div class="admin-stat-label">Total Users</div></div>
+        <div class="admin-stat"><div class="admin-stat-icon">🏥</div><div class="admin-stat-val" style="color:#1A4FA0;">312</div><div class="admin-stat-label">Hospitals</div></div>
+        <div class="admin-stat"><div class="admin-stat-icon">🩺</div><div class="admin-stat-val" style="color:#6B46C1;">135</div><div class="admin-stat-label">Patients</div></div>
+        <div class="admin-stat"><div class="admin-stat-icon">⏳</div><div class="admin-stat-val" style="color:#D4A017;">23</div><div class="admin-stat-label">Pending Verif.</div></div>
+      </div>
+      <div class="card" style="padding:12px;margin-bottom:11px;">
+        <div style="color:#0A1628;font-size:13px;font-weight:800;font-family:Georgia,serif;margin-bottom:8px;">Facilitator Verifications Pending</div>
+        <div class="grievance-row"><div><div class="grievance-id">MediBridge India</div><div class="grievance-user">3/6 docs uploaded · Bengaluru</div></div><span class="badge" style="background:rgba(212,160,23,0.14);color:#D4A017;border:1px solid rgba(212,160,23,0.22);">In Review</span></div>
+        <div class="grievance-row" style="border:none"><div><div class="grievance-id">IndiaCare Facilitation</div><div class="grievance-user">6/6 docs uploaded · Hyderabad</div></div><span class="badge" style="background:rgba(56,161,105,0.14);color:#38A169;border:1px solid rgba(56,161,105,0.22);">Approve?</span></div>
+      </div>
+      <div class="card" style="padding:12px;">
+        <div style="color:#0A1628;font-size:13px;font-weight:800;font-family:Georgia,serif;margin-bottom:8px;">Quick Actions</div>
+        <button class="admin-action-btn">📢 Send Platform Announcement <span class="arrow">›</span></button>
+        <button class="admin-action-btn">✅ Approve Facilitator Verifications <span class="arrow">›</span></button>
+        <button class="admin-action-btn">👥 Manage User Roles <span class="arrow">›</span></button>
+        <button class="admin-action-btn">🩺 Patient Enquiry Reports <span class="arrow">›</span></button>
+        <button class="admin-action-btn">🏥 NABH Hospital Updates <span class="arrow">›</span></button>
+        <button class="admin-action-btn">📊 Export Analytics Report <span class="arrow">›</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ PATIENT SCREENS ════ -->
+
+  <!-- ── PATIENT DASHBOARD ── -->
+  <div class="screen" id="screen-patient-dashboard">
+    <div class="patient-dash-hero">
+      <div class="dash-toprow">
+        <div>
+          <div class="dash-greeting">Welcome back 👋</div>
+          <div class="dash-name">Riya Sharma</div>
+          <span class="badge" style="background:rgba(196,181,253,0.22);color:#C4B5FD;border:1px solid rgba(196,181,253,0.32);">🩺 Patient</span>
+        </div>
+        <button class="notif-btn" onclick="go('notifications')" style="background:rgba(255,255,255,0.14);">🔔<div class="notif-dot"></div></button>
+      </div>
+      <div class="patient-search-box" onclick="go('patient-search')" style="cursor:pointer;">
+        <div class="patient-search-label">Find hospitals for your treatment</div>
+        <div style="position:relative;"><span style="position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:13px;">🔍</span><input class="patient-search-inp" placeholder="Search speciality, hospital name..." readonly style="cursor:pointer;"></div>
+      </div>
+    </div>
+    <div class="scroll-body" style="padding:12px 12px 0;">
+      <div style="margin-bottom:12px;">
+        <div class="sec-header"><span class="sec-title">Browse by Speciality</span><button class="sec-link purple" onclick="go('patient-search')">All</button></div>
+        <div class="spec-grid">
+          <div class="spec-tile" onclick="quickSpeciality('Cardiology')"><div class="spec-tile-icon">❤️</div><div class="spec-tile-name" style="color:#C53030;">Cardiology</div></div>
+          <div class="spec-tile" onclick="quickSpeciality('Oncology')"><div class="spec-tile-icon">🎗️</div><div class="spec-tile-name" style="color:#C05621;">Oncology</div></div>
+          <div class="spec-tile" onclick="quickSpeciality('Orthopedics')"><div class="spec-tile-icon">🦴</div><div class="spec-tile-name" style="color:#2B6CB0;">Orthopedics</div></div>
+          <div class="spec-tile" onclick="quickSpeciality('Neurology')"><div class="spec-tile-icon">🧠</div><div class="spec-tile-name" style="color:#6B46C1;">Neurology</div></div>
+          <div class="spec-tile" onclick="quickSpeciality('Transplants')"><div class="spec-tile-icon">🫀</div><div class="spec-tile-name" style="color:#276749;">Transplants</div></div>
+          <div class="spec-tile" onclick="quickSpeciality('Fertility')"><div class="spec-tile-icon">👶</div><div class="spec-tile-name" style="color:#97266D;">Fertility</div></div>
+        </div>
+      </div>
+      <div style="margin-bottom:12px;">
+        <div class="sec-header"><span class="sec-title">Top Rated Hospitals</span><button class="sec-link purple" onclick="go('patient-search')">See All</button></div>
+        <div class="hosp-card" onclick="go('patient-detail')">
+          <div class="hosp-card-top"><div class="hosp-logo">🏥</div><div style="flex:1;"><div class="hosp-name">Apollo Hospitals Delhi</div><div class="hosp-loc">📍 New Delhi</div><div class="hosp-rating-row"><span class="stars">★★★★★</span><span class="rating-val"> 4.9</span><span style="color:#8896AD;font-size:10px;"> (824)</span></div></div><span class="badge" style="background:rgba(0,137,123,0.14);color:#00897B;border:1px solid rgba(0,137,123,0.22);">NABH</span></div>
+          <div class="hosp-spec-row"><span class="spec-tag">Cardiology</span><span class="spec-tag">Oncology</span><span class="spec-tag">Neurology</span></div>
+        </div>
+        <div class="hosp-card" onclick="go('patient-detail')">
+          <div class="hosp-card-top"><div class="hosp-logo">🏥</div><div style="flex:1;"><div class="hosp-name">Manipal Hospitals</div><div class="hosp-loc">📍 Bengaluru</div><div class="hosp-rating-row"><span class="stars">★★★★★</span><span class="rating-val"> 4.9</span><span style="color:#8896AD;font-size:10px;"> (671)</span></div></div><span class="badge" style="background:rgba(0,137,123,0.14);color:#00897B;border:1px solid rgba(0,137,123,0.22);">NABH</span></div>
+          <div class="hosp-spec-row"><span class="spec-tag">Transplants</span><span class="spec-tag">Cancer Care</span><span class="spec-tag">Orthopedics</span></div>
+        </div>
+      </div>
+      <div style="margin-bottom:12px;">
+        <div class="sec-header"><span class="sec-title">Recently Viewed</span><button class="sec-link purple" onclick="go('patient-saved')">Saved</button></div>
+        <div class="activity-item"><div class="activity-icon-wrap">🏥</div><div style="flex:1"><div class="activity-text">Fortis Healthcare — Neurology, Orthopedics</div><div class="activity-time">Yesterday · Mumbai</div></div><button class="btn-small purple" onclick="event.stopPropagation();go('patient-detail')" style="font-size:10px;padding:5px 9px;">View</button></div>
+      </div>
+    </div>
+    <div class="bottom-nav">
+      <button class="bnav-item active pat"><span class="bnav-icon">🏠</span><span class="bnav-label" style="color:#6B46C1;">Home</span><div class="bnav-dot purple"></div></button>
+      <button class="bnav-item" onclick="go('patient-search')"><span class="bnav-icon">🔍</span><span class="bnav-label">Search</span></button>
+      <button class="bnav-item" onclick="go('patient-saved')"><span class="bnav-icon">💾</span><span class="bnav-label">Saved</span></button>
+      <button class="bnav-item" onclick="go('notifications')"><span class="bnav-icon">🔔</span><span class="bnav-label">Alerts</span></button>
+      <button class="bnav-item" onclick="go('patient-profile')"><span class="bnav-icon">👤</span><span class="bnav-label">Profile</span></button>
+    </div>
+  </div>
+
+  <!-- ── PATIENT SEARCH ── -->
+  <div class="screen" id="screen-patient-search">
+    <div class="patient-filter-hero">
+      <div style="display:flex;align-items:center;gap:9px;margin-bottom:9px;"><button style="background:none;border:none;color:#fff;font-size:20px;cursor:pointer;" onclick="go('patient-dashboard')">←</button><div class="patient-filter-title" style="margin:0;">Find Your Hospital</div></div>
+      <div style="position:relative;"><span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:13px;">🔍</span><input class="search-inp" id="patient-search-inp" placeholder="Search by hospital name or speciality..." oninput="filterHospitals()" style="padding-left:36px;"></div>
+    </div>
+    <div class="scroll-body">
+      <div class="filter-panel">
+        <div class="filter-panel-title">⚙️ Filters <span id="active-filter-count" style="background:#F3F0FF;color:#6B46C1;font-size:9px;padding:2px 7px;border-radius:8px;font-weight:700;"></span></div>
+        <div class="filter-group"><div class="filter-group-label">Speciality</div><div class="filter-chips" id="spec-chips"><button class="chip" onclick="toggleChip(this,'spec')">Cardiology</button><button class="chip" onclick="toggleChip(this,'spec')">Oncology</button><button class="chip" onclick="toggleChip(this,'spec')">Orthopedics</button><button class="chip" onclick="toggleChip(this,'spec')">Neurology</button><button class="chip" onclick="toggleChip(this,'spec')">Transplants</button><button class="chip" onclick="toggleChip(this,'spec')">Fertility</button><button class="chip" onclick="toggleChip(this,'spec')">Spine Surgery</button><button class="chip" onclick="toggleChip(this,'spec')">Ophthalmology</button><button class="chip" onclick="toggleChip(this,'spec')">Dental</button></div></div>
+        <div class="filter-group"><div class="filter-group-label">Location / City</div><div class="filter-chips" id="loc-chips"><button class="chip" onclick="toggleChip(this,'loc')">New Delhi</button><button class="chip" onclick="toggleChip(this,'loc')">Mumbai</button><button class="chip" onclick="toggleChip(this,'loc')">Bengaluru</button><button class="chip" onclick="toggleChip(this,'loc')">Chennai</button><button class="chip" onclick="toggleChip(this,'loc')">Hyderabad</button><button class="chip" onclick="toggleChip(this,'loc')">Gurugram</button></div></div>
+        <div class="filter-group"><div class="filter-group-label">Accreditation</div><div class="filter-chips"><button class="chip" onclick="toggleChip(this,'accr')">NABH</button><button class="chip" onclick="toggleChip(this,'accr')">JCI</button><button class="chip" onclick="toggleChip(this,'accr')">NABL</button><button class="chip" onclick="toggleChip(this,'accr')">ISO</button></div></div>
+        <div class="filter-group" style="margin-bottom:0;"><div class="filter-group-label">Minimum Star Rating</div><div class="range-row"><span style="color:#D4A017;font-size:13px;">★</span><input type="range" min="1" max="5" step="0.5" value="4" id="rating-slider" oninput="updateRating(this.value)"><span class="range-val" id="rating-display">4.0+</span></div></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:0 11px 7px;"><span style="color:#0A1628;font-size:12px;font-weight:800;" id="result-count">Showing 8 hospitals</span><div style="display:flex;align-items:center;gap:6px;"><span style="color:#8896AD;font-size:11px;">Sort:</span><select id="sort-select" class="inp" style="padding:5px 28px 5px 9px;width:auto;font-size:11px;border-radius:8px;" onchange="filterHospitals()"><option value="rating">Top Rated</option><option value="name">Name A–Z</option><option value="reviews">Most Reviews</option></select></div></div>
+      <div style="padding:0 11px 11px;" id="hospital-list"></div>
+    </div>
+    <div class="bottom-nav">
+      <button class="bnav-item" onclick="go('patient-dashboard')"><span class="bnav-icon">🏠</span><span class="bnav-label">Home</span></button>
+      <button class="bnav-item active pat"><span class="bnav-icon">🔍</span><span class="bnav-label" style="color:#6B46C1;">Search</span><div class="bnav-dot purple"></div></button>
+      <button class="bnav-item" onclick="go('patient-saved')"><span class="bnav-icon">💾</span><span class="bnav-label">Saved</span></button>
+      <button class="bnav-item" onclick="go('notifications')"><span class="bnav-icon">🔔</span><span class="bnav-label">Alerts</span></button>
+      <button class="bnav-item" onclick="go('patient-profile')"><span class="bnav-icon">👤</span><span class="bnav-label">Profile</span></button>
+    </div>
+  </div>
+
+  <!-- ── PATIENT HOSPITAL DETAIL ── -->
+  <div class="screen" id="screen-patient-detail">
+    <div class="detail-hero patient">
+      <button class="detail-back" onclick="go('patient-search')">←</button>
+      <div class="detail-row">
+        <div class="detail-logo-wrap">🏥</div>
+        <div style="flex:1;">
+          <div class="detail-name">Apollo Hospitals Delhi</div>
+          <div class="detail-loc">📍 New Delhi, Delhi</div>
+          <div style="display:flex;gap:5px;flex-wrap:wrap;">
+            <span class="badge" style="background:rgba(0,137,123,0.28);color:#00BFA5;border:1px solid rgba(0,191,165,0.32);">NABH</span>
+            <span class="badge" style="background:rgba(196,181,253,0.28);color:#C4B5FD;border:1px solid rgba(196,181,253,0.38);">JCI</span>
+            <span class="badge" style="background:rgba(56,161,105,0.18);color:#68D391;border:1px solid rgba(104,211,145,0.28);">✓ Verified</span>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:7px;margin-top:11px;">
+        <button class="detail-btn purple" onclick="showEnquiryToast()">📩 Send Enquiry</button>
+        <button class="detail-btn secondary" onclick="saveHospital()" id="save-btn">🔖 Save</button>
+        <button class="detail-btn secondary" onclick="shareHospital()">📤</button>
+      </div>
+    </div>
+    <div class="scroll-body">
+      <div style="background:#fff;margin:11px;border-radius:13px;padding:13px;border:1px solid #EEF1F6;">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="text-align:center;"><div style="font-size:30px;font-weight:800;color:#D4A017;font-family:Georgia,serif;">4.9</div><div style="color:#D4A017;font-size:14px;">★★★★★</div><div style="color:#8896AD;font-size:10px;margin-top:2px;">824 reviews</div></div>
+          <div style="flex:1;">
+            <div style="display:flex;align-items:center;gap:5px;margin-bottom:4px;"><span style="color:#8896AD;font-size:10px;width:14px;">5★</span><div style="flex:1;height:5px;background:#EEF1F6;border-radius:3px;overflow:hidden;"><div style="width:78%;height:100%;background:#D4A017;border-radius:3px;"></div></div><span style="color:#8896AD;font-size:10px;">78%</span></div>
+            <div style="display:flex;align-items:center;gap:5px;margin-bottom:4px;"><span style="color:#8896AD;font-size:10px;width:14px;">4★</span><div style="flex:1;height:5px;background:#EEF1F6;border-radius:3px;overflow:hidden;"><div style="width:16%;height:100%;background:#D4A017;border-radius:3px;"></div></div><span style="color:#8896AD;font-size:10px;">16%</span></div>
+            <div style="display:flex;align-items:center;gap:5px;"><span style="color:#8896AD;font-size:10px;width:14px;">3★</span><div style="flex:1;height:5px;background:#EEF1F6;border-radius:3px;overflow:hidden;"><div style="width:6%;height:100%;background:#D4A017;border-radius:3px;"></div></div><span style="color:#8896AD;font-size:10px;">6%</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="detail-section"><div class="detail-sec-title">About the Hospital</div><div class="detail-about">Super-specialty tertiary care hospital with 700+ beds. Renowned for cardiac sciences, oncology, organ transplants, and advanced neurology. Dedicated International Patient Department with Arabic, French, and Swahili coordinators.</div></div>
+      <div class="detail-section"><div class="detail-sec-title">Specialities Offered</div><div style="display:flex;gap:5px;flex-wrap:wrap;"><span class="spec-tag">❤️ Cardiology</span><span class="spec-tag">🎗️ Oncology</span><span class="spec-tag">🧠 Neurology</span><span class="spec-tag">🦴 Orthopedics</span><span class="spec-tag">🫀 Transplants</span><span class="spec-tag">👁️ Ophthalmology</span></div></div>
+      <div class="detail-section"><div class="detail-sec-title">Key Highlights</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><div style="background:#F7F9FC;border-radius:10px;padding:10px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#0A1628;font-family:Georgia,serif;">700+</div><div style="color:#8896AD;font-size:10px;margin-top:2px;">Beds</div></div><div style="background:#F7F9FC;border-radius:10px;padding:10px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#0A1628;font-family:Georgia,serif;">40+</div><div style="color:#8896AD;font-size:10px;margin-top:2px;">Specialities</div></div><div style="background:#F7F9FC;border-radius:10px;padding:10px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#0A1628;font-family:Georgia,serif;">500+</div><div style="color:#8896AD;font-size:10px;margin-top:2px;">Intl. Patients/yr</div></div><div style="background:#F7F9FC;border-radius:10px;padding:10px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#0A1628;font-family:Georgia,serif;">1983</div><div style="color:#8896AD;font-size:10px;margin-top:2px;">Established</div></div></div></div>
+      <div class="contact-box" style="margin:12px 13px;"><div class="contact-box-title">📍 Location &amp; Contact</div><div class="contact-box-val">Sarita Vihar, Mathura Road, New Delhi — 110076</div><div class="contact-box-val" style="margin-top:3px;">🌐 www.apollohospitals.com</div><div class="contact-box-val" style="margin-top:3px;color:#8896AD;font-size:11px;">📞 Send enquiry to receive contact details</div></div>
+      <div class="detail-section" style="border:none;"><div class="detail-sec-title">Patient Reviews</div>
+        <div style="background:#F7F9FC;border-radius:11px;padding:11px;margin-bottom:8px;"><div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-size:12px;font-weight:700;color:#0A1628;">Mohammed A.</span><span style="color:#D4A017;font-size:11px;">★★★★★</span></div><div style="font-size:11px;color:#4A5568;line-height:1.55;">Excellent cardiac care. IPD team helped with visa, accommodation, and airport pickup. Surgery was successful.</div><div style="font-size:10px;color:#8896AD;margin-top:4px;">Nigeria · Cardiac Surgery · Feb 2026</div></div>
+        <div style="background:#F7F9FC;border-radius:11px;padding:11px;"><div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-size:12px;font-weight:700;color:#0A1628;">Sara K.</span><span style="color:#D4A017;font-size:11px;">★★★★★</span></div><div style="font-size:11px;color:#4A5568;line-height:1.55;">World-class doctors and supportive multilingual staff. Cost was much lower than home country.</div><div style="font-size:10px;color:#8896AD;margin-top:4px;">Kenya · Orthopedics · Jan 2026</div></div>
+      </div>
+    </div>
+    <div id="enquiry-toast" class="toast" style="background:#00897B;color:#fff;box-shadow:0 4px 20px rgba(0,137,123,0.4);">✅ Enquiry sent! The hospital IPD team will contact you shortly.</div>
+    <div id="share-toast" class="toast" style="background:#1A4FA0;color:#fff;box-shadow:0 4px 20px rgba(26,79,160,0.4);">📤 Hospital profile link copied to clipboard!</div>
+  </div>
+
+  <!-- ── PATIENT SAVED ── -->
+  <div class="screen" id="screen-patient-saved">
+    <div class="nav-header purple"><button class="back-btn" onclick="go('patient-dashboard')">←</button><h2>Saved Hospitals</h2></div>
+    <div class="scroll-body" style="padding:13px;">
+      <div class="saved-hosp-card"><div class="saved-logo">🏥</div><div style="flex:1;"><div class="conn-name">Apollo Hospitals Delhi</div><div class="conn-loc">New Delhi · ⭐ 4.9</div><div style="margin-top:4px;"><span class="spec-tag">Cardiology</span></div></div><button class="btn-small purple" onclick="go('patient-detail')">View</button></div>
+      <div class="saved-hosp-card"><div class="saved-logo">🏥</div><div style="flex:1;"><div class="conn-name">Manipal Hospitals</div><div class="conn-loc">Bengaluru · ⭐ 4.9</div><div style="margin-top:4px;"><span class="spec-tag">Transplants</span></div></div><button class="btn-small purple" onclick="go('patient-detail')">View</button></div>
+      <div id="extra-saved"></div>
+      <div style="background:#F3F0FF;border-radius:13px;padding:13px;border:1.5px dashed #DDD6FE;text-align:center;margin-top:5px;"><div style="font-size:30px;margin-bottom:7px;">🔍</div><div style="color:#6B46C1;font-size:13px;font-weight:700;margin-bottom:3px;">Find more hospitals</div><div style="color:#8896AD;font-size:11px;margin-bottom:9px;">Search by speciality, location, or rating</div><button class="btn-primary purple" style="padding:9px;" onclick="go('patient-search')">Search Hospitals</button></div>
+    </div>
+    <div class="bottom-nav">
+      <button class="bnav-item" onclick="go('patient-dashboard')"><span class="bnav-icon">🏠</span><span class="bnav-label">Home</span></button>
+      <button class="bnav-item" onclick="go('patient-search')"><span class="bnav-icon">🔍</span><span class="bnav-label">Search</span></button>
+      <button class="bnav-item active pat"><span class="bnav-icon">💾</span><span class="bnav-label" style="color:#6B46C1;">Saved</span><div class="bnav-dot purple"></div></button>
+      <button class="bnav-item" onclick="go('notifications')"><span class="bnav-icon">🔔</span><span class="bnav-label">Alerts</span></button>
+      <button class="bnav-item" onclick="go('patient-profile')"><span class="bnav-icon">👤</span><span class="bnav-label">Profile</span></button>
+    </div>
+  </div>
+
+  <!-- ── PATIENT PROFILE ── -->
+  <div class="screen" id="screen-patient-profile">
+    <div class="profile-hero patient">
+      <div class="profile-avatar">🩺</div>
+      <div class="profile-name">Riya Sharma</div>
+      <div class="profile-loc">Dubai, UAE</div>
+      <div><span class="badge" style="background:rgba(196,181,253,0.22);color:#C4B5FD;border:1px solid rgba(196,181,253,0.3);">🩺 Patient</span><span class="badge" style="background:rgba(56,161,105,0.18);color:#68D391;border:1px solid rgba(104,211,145,0.28);margin-left:4px;">✓ Verified</span></div>
+      <div class="profile-stats"><div><div class="pstat-val">2</div><div class="pstat-label">Saved</div></div><div><div class="pstat-val">3</div><div class="pstat-label">Enquiries</div></div><div><div class="pstat-val">12</div><div class="pstat-label">Searches</div></div></div>
+    </div>
+    <div class="scroll-body" style="padding:13px;">
+      <button class="menu-item"><span class="menu-icon">✏️</span><span class="menu-label">Edit Profile</span><span class="menu-arrow">›</span></button>
+      <button class="menu-item" onclick="go('patient-saved')"><span class="menu-icon">💾</span><span class="menu-label">Saved Hospitals</span><span class="menu-arrow">›</span></button>
+      <button class="menu-item"><span class="menu-icon">📩</span><span class="menu-label">My Enquiries</span><span class="menu-arrow">›</span></button>
+      <button class="menu-item" onclick="go('grievance')"><span class="menu-icon">📋</span><span class="menu-label">Grievance &amp; Feedback</span><span class="menu-arrow">›</span></button>
+      <button class="menu-item" onclick="go('notifications')"><span class="menu-icon">🔔</span><span class="menu-label">Notifications</span><span class="menu-arrow">›</span></button>
+      <button class="menu-item"><span class="menu-icon">🔒</span><span class="menu-label">Privacy &amp; Security</span><span class="menu-arrow">›</span></button>
+      <button class="menu-item" onclick="go('login')"><span class="menu-icon">🚪</span><span class="menu-label red">Sign Out</span><span class="menu-arrow">›</span></button>
+    </div>
+    <div class="bottom-nav">
+      <button class="bnav-item" onclick="go('patient-dashboard')"><span class="bnav-icon">🏠</span><span class="bnav-label">Home</span></button>
+      <button class="bnav-item" onclick="go('patient-search')"><span class="bnav-icon">🔍</span><span class="bnav-label">Search</span></button>
+      <button class="bnav-item" onclick="go('patient-saved')"><span class="bnav-icon">💾</span><span class="bnav-label">Saved</span></button>
+      <button class="bnav-item" onclick="go('notifications')"><span class="bnav-icon">🔔</span><span class="bnav-label">Alerts</span></button>
+      <button class="bnav-item active pat"><span class="bnav-icon">👤</span><span class="bnav-label" style="color:#6B46C1;">Profile</span><div class="bnav-dot purple"></div></button>
+    </div>
+  </div>
+
+</div><!-- /phone -->
+
+<div class="feature-strip">
+  <div class="feat"><div class="feat-val">6</div><div class="feat-label">User Roles</div></div>
+  <div class="feat"><div class="feat-val">✓✓</div><div class="feat-label">Dual OTP Auth</div></div>
+  <div class="feat"><div class="feat-val">🛡️</div><div class="feat-label">Facilitator Verify</div></div>
+  <div class="feat"><div class="feat-val">🏥</div><div class="feat-label">Rich Hospital Detail</div></div>
+  <div class="feat"><div class="feat-val">27</div><div class="feat-label">Screens</div></div>
+  <div class="feat"><div class="feat-val">🏛</div><div class="feat-label">QCI + NABH</div></div>
+</div>
+
+<script>
+const PROVIDERS=[
+  {id:1,name:"Apollo Hospitals Delhi",type:"hospital",specialty:"Cardiology, Oncology",location:"New Delhi",accr:"NABH",rating:4.9,connected:false,logo:"🏥",verified:true,desc:"Super-specialty tertiary care hospital with 700+ beds, 52 OTs, and dedicated IPD."},
+  {id:2,name:"Fortis Healthcare",type:"hospital",specialty:"Neurology, Orthopedics",location:"Mumbai",accr:"NABH",rating:4.8,connected:true,logo:"🏥",verified:true,desc:"Premier multi-specialty chain with dedicated international patient department."},
+  {id:3,name:"Manipal Hospitals",type:"hospital",specialty:"Transplants, Cancer Care",location:"Bengaluru",accr:"NABH",rating:4.9,connected:false,logo:"🏥",verified:true,desc:"Academic medical centre renowned for complex organ transplants and oncology."},
+  {id:4,name:"AIIMS New Delhi",type:"hospital",specialty:"Neurology, Cardiology, Oncology",location:"New Delhi",accr:"NABH",rating:4.8,connected:false,logo:"🏥",verified:true,desc:"India's premier government tertiary care institution with excellence across all specialities."},
+  {id:5,name:"MediBridge India",type:"facilitator",specialty:"Patient Coordination, GCC",location:"Bengaluru",accr:null,rating:4.7,connected:false,logo:"🤝",verified:false,desc:"Full-service medical tourism facilitation for GCC and African markets. Verification pending."},
+  {id:6,name:"IndiaCare Facilitation",type:"facilitator",specialty:"Coordination, Visa",location:"Hyderabad",accr:null,rating:4.5,connected:false,logo:"🤝",verified:true,desc:"QCI Verified facilitator for South Asia and East Africa referrals."},
+  {id:7,name:"Global Health Connect UAE",type:"overseas",specialty:"Referral Network",location:"Dubai, UAE",accr:null,rating:4.6,connected:false,logo:"🌍",verified:true,desc:"Leading medical tourism aggregator serving the Middle East region."},
+  {id:8,name:"HealthBridge Kenya",type:"overseas",specialty:"East Africa Referrals",location:"Nairobi",accr:null,rating:4.4,connected:true,logo:"🌍",verified:true,desc:"Connects East African patients with India's best treatment facilities."},
+  {id:9,name:"TravelMed Assist",type:"allied",specialty:"Travel & Visa",location:"Chennai",accr:null,rating:4.5,connected:false,logo:"✈️",verified:false,desc:"Medical visa assistance, airport transfers, and accommodation services."},
+  {id:10,name:"ForexCare India",type:"allied",specialty:"Forex Services",location:"Hyderabad",accr:null,rating:4.3,connected:false,logo:"💱",verified:true,desc:"Specialised forex and remittance for medical tourists and families."},
+];
+const HOSPITALS=[
+  {id:1,name:"Apollo Hospitals Delhi",city:"New Delhi",state:"Delhi",specs:["Cardiology","Oncology","Neurology","Transplants","Orthopedics"],accr:"NABH",rating:4.9,reviews:824,beds:700},
+  {id:2,name:"Fortis Healthcare",city:"Mumbai",state:"Maharashtra",specs:["Neurology","Orthopedics","Cardiology","Spine Surgery"],accr:"NABH",rating:4.8,reviews:612,beds:400},
+  {id:3,name:"Manipal Hospitals",city:"Bengaluru",state:"Karnataka",specs:["Transplants","Oncology","Cardiology","Orthopedics","Fertility"],accr:"NABH",rating:4.9,reviews:671,beds:600},
+  {id:4,name:"AIIMS New Delhi",city:"New Delhi",state:"Delhi",specs:["Neurology","Cardiology","Oncology","Orthopedics","Fertility"],accr:"NABH",rating:4.8,reviews:990,beds:2000},
+  {id:5,name:"Medanta — The Medicity",city:"Gurugram",state:"Haryana",specs:["Cardiology","Transplants","Oncology","Spine Surgery"],accr:"NABH",rating:4.8,reviews:743,beds:1300},
+  {id:6,name:"Kokilaben Dhirubhai Ambani",city:"Mumbai",state:"Maharashtra",specs:["Oncology","Neurology","Fertility","Orthopedics"],accr:"NABH",rating:4.7,reviews:530,beds:750},
+  {id:7,name:"Gleneagles Global Chennai",city:"Chennai",state:"Tamil Nadu",specs:["Cardiology","Orthopedics","Dental","Ophthalmology","Transplants"],accr:"NABH",rating:4.7,reviews:441,beds:500},
+  {id:8,name:"Yashoda Hospitals",city:"Hyderabad",state:"Telangana",specs:["Cardiology","Neurology","Orthopedics","Fertility"],accr:"NABH",rating:4.6,reviews:387,beds:600},
+];
+const NOTIFS=[
+  {id:1,icon:"🤝",text:"Apollo Hospitals accepted your connection request",time:"5 min ago",read:false},
+  {id:2,icon:"💬",text:"New message from HealthBridge Kenya",time:"1 hour ago",read:false},
+  {id:3,icon:"📢",text:"QCI Webinar: India MVT Growth 2026 — Register Now",time:"2 hours ago",read:true},
+  {id:4,icon:"🤝",text:"MediBridge India sent you a connection request",time:"Yesterday",read:true},
+  {id:5,icon:"🛡️",text:"Your profile has been verified by QCI",time:"2 days ago",read:true},
+  {id:6,icon:"⚠️",text:"MediBridge India: verification documents under review by QCI",time:"3 days ago",read:true},
+];
+
+let currentFilter='all',searchVal='';
+let connected={};PROVIDERS.forEach(p=>connected[p.id]=p.connected);
+let notifs=JSON.parse(JSON.stringify(NOTIFS));
+let obSlide=0;
+let activeFilters={spec:[],loc:[],accr:[],minRating:4.0};
+let savedHospitals=[1,3];
+
+function go(name,tabBtn){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  const el=document.getElementById('screen-'+name);if(!el)return;
+  el.classList.add('active');
+  if(tabBtn){document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));tabBtn.classList.add('active');}
+  if(name==='discover')renderProviders();
+  if(name==='patient-search')filterHospitals();
+  if(name==='notifications')renderNotifs();
+  if(name==='chat')scrollChat();
+}
+
+const OB=[
+  {icon:'🌏',title:"India's Medical Tourism Network",desc:"Connect with 500+ verified hospitals, facilitators, and overseas partners across the MVT ecosystem."},
+  {icon:'🔍',title:"Discover Verified Partners",desc:"Find NABH-accredited hospitals, trusted facilitators, and allied service providers — all in one place."},
+  {icon:'🩺',title:"Patients & Providers Together",desc:"Patients search hospitals by speciality. B2B partners network and coordinate treatment journeys."},
+];
+function obNext(){obSlide++;if(obSlide>=OB.length){go('login');obSlide=0;obRender();return;}obRender();}
+function obRender(){const s=OB[obSlide]||OB[0];document.getElementById('ob-icon').innerHTML=s.icon;document.getElementById('ob-title').innerHTML=s.title;document.getElementById('ob-desc').innerHTML=s.desc;document.querySelectorAll('.ob-dot').forEach((d,i)=>d.classList.toggle('active',i===obSlide));document.getElementById('ob-btn').textContent=obSlide===OB.length-1?'Get Started':'Next';}
+
+function registerSubmit(){
+  const tc=document.getElementById('chk-tc');const da=document.getElementById('chk-data');
+  if(!tc.checked||!da.checked){alert('Please accept the required Terms & Conditions and Data Consent to continue.');return;}
+  go('otp');
+}
+
+function filterProviders(val){searchVal=(val||'').toLowerCase();renderProviders();}
+function setFilter(f,btn){currentFilter=f;document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderProviders();}
+function renderProviders(){
+  const list=document.getElementById('provider-list');if(!list)return;
+  const items=PROVIDERS.filter(p=>{
+    const ms=!searchVal||p.name.toLowerCase().includes(searchVal)||p.specialty.toLowerCase().includes(searchVal)||p.location.toLowerCase().includes(searchVal);
+    const mt=currentFilter==='all'||p.type===currentFilter;
+    return ms&&mt;
+  });
+  list.innerHTML=items.map(p=>{
+    const isC=connected[p.id];
+    const badges=[
+      p.accr?`<span class="badge" style="background:rgba(0,137,123,0.14);color:#00897B;border:1px solid rgba(0,137,123,0.22);">${p.accr}</span>`:'',
+      p.verified&&p.type==='facilitator'?`<span class="badge" style="background:rgba(56,161,105,0.14);color:#38A169;border:1px solid rgba(56,161,105,0.22);">✓ Verified</span>`:'',
+      !p.verified&&p.type==='facilitator'?`<span class="badge" style="background:rgba(212,160,23,0.15);color:#D4A017;border:1px solid rgba(212,160,23,0.28);">⏳ Verifying</span>`:'',
+      p.verified&&p.type!=='facilitator'&&!p.accr?`<span class="badge" style="background:rgba(56,161,105,0.14);color:#38A169;border:1px solid rgba(56,161,105,0.22);">✓ Verified</span>`:'',
+    ].filter(Boolean).join(' ');
+    return `<div class="provider-item" onclick="openDetail(${p.id})">
+      <div class="prov-logo">${p.logo}</div>
+      <div style="flex:1;min-width:0;">
+        <div style="display:flex;justify-content:space-between;"><div><div class="prov-name">${p.name}</div><div class="prov-loc">📍 ${p.location}</div></div><div class="prov-rating">⭐ ${p.rating}</div></div>
+        <div class="prov-spec">${p.specialty}</div>
+        <div class="prov-tags">${badges}</div>
+        <button class="btn-small ${isC?'connected':''}" style="margin-top:7px;" onclick="event.stopPropagation();toggleConn(${p.id},this)">${isC?'Connected ✓':'Send Request'}</button>
+      </div>
+    </div>`;
+  }).join('')||'<div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-title">No results found</div><div class="empty-desc">Try a different search or filter</div></div>';
+}
+function toggleConn(id,btn){connected[id]=!connected[id];btn.textContent=connected[id]?'Connected ✓':'Send Request';btn.classList.toggle('connected',connected[id]);}
+function openDetail(id){
+  const p=PROVIDERS.find(x=>x.id===id);if(!p)return;
+  if(p.type==='hospital'){go('hospital-detail');return;}
+  document.getElementById('detail-logo').textContent=p.logo;
+  document.getElementById('detail-name').textContent=p.name;
+  document.getElementById('detail-loc').textContent='📍 '+p.location;
+  document.getElementById('detail-loc2').textContent=p.location;
+  document.getElementById('detail-spec').textContent=p.specialty;
+  document.getElementById('detail-about').textContent=p.desc;
+  document.getElementById('detail-accr').textContent=p.accr||p.type;
+  const isC=connected[p.id];
+  const cb=document.getElementById('connect-btn');
+  cb.textContent=isC?'✓ Connected':'🤝 Connect';cb.setAttribute('data-pid',p.id);
+  document.getElementById('contact-locked').textContent=isC?'📞 +91 98765 43210':'📞 Connect to view contact details';
+  document.getElementById('contact-locked').style.color=isC?'#0A1628':'#8896AD';
+  go('detail');
+}
+function toggleConnect(){
+  const cb=document.getElementById('connect-btn');const pid=parseInt(cb.getAttribute('data-pid'));
+  if(pid){connected[pid]=!connected[pid];cb.textContent=connected[pid]?'✓ Connected':'🤝 Connect';document.getElementById('contact-locked').textContent=connected[pid]?'📞 +91 98765 43210':'📞 Connect to view contact details';document.getElementById('contact-locked').style.color=connected[pid]?'#0A1628':'#8896AD';}
+}
+
+function switchHospTab(idx,btn){
+  document.querySelectorAll('.hosp-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.hosp-tab-content').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('htab-'+idx).classList.add('active');
+}
+
+function showNabhRedirect(){
+  const t=document.createElement('div');
+  t.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:999;';
+  t.innerHTML=`<div style="background:#fff;border-radius:20px;padding:22px;margin:20px;max-width:320px;text-align:center;">
+    <div style="font-size:36px;margin-bottom:12px;">🔗</div>
+    <div style="font-size:15px;font-weight:800;color:#0A1628;margin-bottom:8px;">Redirecting to NABH Portal</div>
+    <div style="font-size:12px;color:#4A5568;line-height:1.6;margin-bottom:16px;">You will be taken to <strong>nabh.co.in</strong> to securely upload your verification documents. After submission, QCI will review within 3–5 business days.</div>
+    <div style="display:flex;gap:9px;">
+      <button onclick="this.closest('div').parentElement.remove()" style="flex:1;padding:11px;border-radius:11px;border:1.5px solid #D8DEE9;background:#fff;font-size:13px;font-weight:700;cursor:pointer;color:#4A5568;">Cancel</button>
+      <button onclick="this.closest('div').parentElement.remove()" style="flex:1;padding:11px;border-radius:11px;border:none;background:linear-gradient(135deg,#6B46C1,#805AD5);color:#fff;font-size:13px;font-weight:700;cursor:pointer;">Open NABH Portal</button>
+    </div>
+  </div>`;
+  document.body.appendChild(t);
+}
+
+function toggleChip(btn,group){btn.classList.toggle('active');const val=btn.textContent.trim();const arr=activeFilters[group];const idx=arr.indexOf(val);if(idx===-1)arr.push(val);else arr.splice(idx,1);updateFilterCount();filterHospitals();}
+function updateFilterCount(){const total=activeFilters.spec.length+activeFilters.loc.length+activeFilters.accr.length+(activeFilters.minRating>1?1:0);const el=document.getElementById('active-filter-count');if(el)el.textContent=total>0?total+' active':'';}
+function updateRating(val){activeFilters.minRating=parseFloat(val);const d=document.getElementById('rating-display');if(d)d.textContent=parseFloat(val).toFixed(1)+'+';updateFilterCount();filterHospitals();}
+function quickSpeciality(spec){activeFilters.spec=[spec];document.querySelectorAll('#spec-chips .chip').forEach(c=>c.classList.toggle('active',c.textContent.trim()===spec));updateFilterCount();go('patient-search');filterHospitals();}
+function filterHospitals(){
+  const list=document.getElementById('hospital-list');if(!list)return;
+  const q=(document.getElementById('patient-search-inp')?document.getElementById('patient-search-inp').value:'').toLowerCase();
+  const sort=document.getElementById('sort-select')?document.getElementById('sort-select').value:'rating';
+  let results=HOSPITALS.filter(h=>{
+    const matchQ=!q||h.name.toLowerCase().includes(q)||h.specs.some(s=>s.toLowerCase().includes(q));
+    const matchSpec=activeFilters.spec.length===0||activeFilters.spec.some(s=>h.specs.includes(s));
+    const matchLoc=activeFilters.loc.length===0||activeFilters.loc.some(l=>h.city===l||h.state===l);
+    const matchAccr=activeFilters.accr.length===0||activeFilters.accr.includes(h.accr);
+    const matchRate=h.rating>=activeFilters.minRating;
+    return matchQ&&matchSpec&&matchLoc&&matchAccr&&matchRate;
+  });
+  if(sort==='rating')results.sort((a,b)=>b.rating-a.rating);
+  if(sort==='name')results.sort((a,b)=>a.name.localeCompare(b.name));
+  if(sort==='reviews')results.sort((a,b)=>b.reviews-a.reviews);
+  const rc=document.getElementById('result-count');if(rc)rc.textContent=`Showing ${results.length} hospital${results.length!==1?'s':''}`;
+  if(results.length===0){list.innerHTML='<div class="empty-state"><div class="empty-icon">🏥</div><div class="empty-title">No hospitals found</div><div class="empty-desc">Try adjusting your filters</div></div>';return;}
+  list.innerHTML=results.map(h=>{
+    const specTags=h.specs.slice(0,3).map(s=>`<span class="spec-tag">${s}</span>`).join('');
+    const isSaved=savedHospitals.includes(h.id);
+    const stars='★'.repeat(Math.floor(h.rating))+(h.rating%1?'½':'');
+    return `<div class="hosp-card" onclick="go('patient-detail')">
+      <div class="hosp-card-top"><div class="hosp-logo">🏥</div><div style="flex:1;min-width:0;"><div class="hosp-name">${h.name}</div><div class="hosp-loc">📍 ${h.city}, ${h.state}</div><div class="hosp-rating-row"><span class="stars">${stars}</span><span class="rating-val"> ${h.rating}</span><span style="color:#8896AD;font-size:10px;"> (${h.reviews})</span></div></div><span class="badge" style="background:rgba(0,137,123,0.14);color:#00897B;border:1px solid rgba(0,137,123,0.22);flex-shrink:0;">${h.accr}</span></div>
+      <div class="hosp-spec-row">${specTags}${h.specs.length>3?`<span style="color:#8896AD;font-size:10px;padding:3px 6px;">+${h.specs.length-3}</span>`:''}</div>
+      <div class="hosp-highlights"><div class="hosp-hl"><div class="hosp-hl-val">${h.beds}+</div><div class="hosp-hl-label">Beds</div></div><div class="hosp-hl" style="border-left:1px solid #EEF1F6;border-right:1px solid #EEF1F6;"><div class="hosp-hl-val">${h.specs.length}</div><div class="hosp-hl-label">Specialities</div></div><div class="hosp-hl"><div class="hosp-hl-val">${h.reviews}</div><div class="hosp-hl-label">Reviews</div></div></div>
+      <div class="hosp-actions"><button class="hosp-view-btn" onclick="event.stopPropagation();go('patient-detail')">View &amp; Enquire</button><button class="hosp-conn-btn ${isSaved?'saved':''}" onclick="event.stopPropagation();toggleSave(${h.id},this)">${isSaved?'💾 Saved':'🔖 Save'}</button></div>
+    </div>`;
+  }).join('');
+}
+function toggleSave(id,btn){const idx=savedHospitals.indexOf(id);if(idx===-1){savedHospitals.push(id);btn.textContent='💾 Saved';btn.classList.add('saved');}else{savedHospitals.splice(idx,1);btn.textContent='🔖 Save';btn.classList.remove('saved');}}
+function saveHospital(){const btn=document.getElementById('save-btn');btn.textContent=btn.textContent.includes('Saved')?'🔖 Save':'💾 Saved';}
+function showEnquiryToast(){const t=document.getElementById('enquiry-toast');t.style.display='block';setTimeout(()=>{t.style.display='none';},3000);}
+function shareHospital(){const t=document.getElementById('share-toast');t.style.display='block';setTimeout(()=>{t.style.display='none';},2500);}
+
+function renderNotifs(){const list=document.getElementById('notif-list');if(!list)return;list.innerHTML=notifs.map(n=>`<div class="notif-item ${n.read?'':'unread'}" onclick="readNotif(${n.id})"><div class="notif-avatar">${n.icon}</div><div style="flex:1;"><div class="notif-text">${n.text}</div><div class="notif-time">${n.time}</div></div>${!n.read?'<div class="unread-dot"></div>':''}</div>`).join('');}
+function readNotif(id){notifs=notifs.map(n=>n.id===id?{...n,read:true}:n);renderNotifs();}
+function markAllRead(){notifs=notifs.map(n=>({...n,read:true}));renderNotifs();}
+
+function submitGrievance(){
+  const s=document.getElementById('griev-subj').value.trim();const d=document.getElementById('griev-desc').value.trim();
+  if(!s||!d){alert('Please fill in the subject and description.');return;}
+  const c=document.getElementById('griev-cat').value;const el=document.getElementById('extra-grievances');
+  const div=document.createElement('div');div.className='grievance-card';
+  const tn='GR00'+Math.floor(Math.random()*900+100);
+  div.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;"><span class="grievance-subj">${s}</span><span class="badge" style="background:rgba(56,161,105,0.14);color:#38A169;border:1px solid rgba(56,161,105,0.3);">Submitted</span></div><div class="grievance-meta">${c} · #${tn} · Mar 17, 2026</div>`;
+  el.appendChild(div);document.getElementById('griev-subj').value='';document.getElementById('griev-desc').value='';
+}
+
+function sendMsg(){const inp=document.getElementById('chat-inp');const t=inp.value.trim();if(!t)return;const body=document.getElementById('chat-body');const time=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});const d=document.createElement('div');d.className='bubble-wrap me';d.innerHTML=`<div class="bubble me">${t}<div class="bubble-time">${time} ✓✓</div></div>`;body.appendChild(d);inp.value='';scrollChat();}
+function scrollChat(){setTimeout(()=>{const b=document.getElementById('chat-body');if(b)b.scrollTop=b.scrollHeight;},50);}
+
+renderProviders();renderNotifs();filterHospitals();
+</script>
+</body>
+</html>
